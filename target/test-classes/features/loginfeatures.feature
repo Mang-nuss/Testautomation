@@ -1,11 +1,11 @@
 Feature: Login issues
 
   @Tag1
-  Scenario Outline: Login works
+  Scenario Outline: Registration works
     Given I am up to register at website
-    When I submit <email> as email
-    And I submit <username> as username
-    And I submit <password> as password
+    When I submit "<email>" as email
+    And I submit "<username>" as username
+    And I submit "<password>" as password
     And I click on sign-in
     Then The registration is completed
     Examples:
