@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
         features= "src/test/resources/features",
         glue= "stepdefinitions",
         //tags= {"@Tag2, not @Tag1"},
-        tags= "@Tag2",
+        tags= "@Tag1",
         //plugin= {"pretty"},
         monochrome= true
 )

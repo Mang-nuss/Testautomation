@@ -5,21 +5,36 @@ import selenium.LoginAction;
 
 public class MyStepdefs {
 
+    /*
+    * Learned: all steps must be compilable before running a single scenario s, even though they are not
+    * all included in s
+    * */
+
     @Given("I am up to register at website")
-    public void iAmUpToRegisterAtWebsite() throws InterruptedException {
+    public void i_am_up_to_register_at_website() throws InterruptedException {
         LoginAction.enterSite();
         System.out.println("step taken");
-        //throw new io.cucumber.java.PendingException();
     }
 
-    @When("I submit {string} as address")
-    public void iSubmitAnEmail(String email) {
+    @When("I submit {string} as email")
+    public void iSubmitAsEmail(String mail) {
 
-        System.out.println(email);
-        //throw new io.cucumber.java.PendingException();
+        System.out.println(mail);
     }
 
-    @And("I submit a {username}")
+    @And("I submit {string} as password")
+    public void iSubmitAsPassword(String pwd) {
+
+        System.out.println(pwd);
+    }
+
+    @And("I submit {string} as username")
+    public void iSubmitAsUsername(String username) {
+
+        System.out.println(username);
+    }
+
+    @And("I submit <username{string}>")
     public void iSubmitAUsername(String username) {
 
         System.out.println(username);
@@ -41,14 +56,14 @@ public class MyStepdefs {
         //throw new io.cucumber.java.PendingException();
     }
 
-    @When("I submit valid {email} and {password}")
+    @When("I submit valid {string} and {string}")
     public void iSubmitValidEmailAndPassword() {
 
         System.out.println("step taken");
         //throw new io.cucumber.java.PendingException();
     }
 
-    @But("I submit a {username} too extensive")
+    @But("I submit a {string} too extensive")
     public void iSubmitAUsernameTooExtensive() {
 
         System.out.println("step taken");
@@ -60,27 +75,39 @@ public class MyStepdefs {
         System.out.println("step taken");
     }
 
-    @But("I submit a {username} that is taken since before")
+    @But("I submit a {string} that is taken since before")
     public void iSubmitAUsernameThatIsTakenSinceBefore() {
 
         System.out.println("step taken");
     }
 
-    @But("I forget to submit an {email}")
+    @But("I forget to submit an {string}")
     public void iForgetToSubmitAnEmail() {
 
         System.out.println("step taken");
     }
-
-    @And("I submit a {password}")
-    public void iSubmitAPassword(String password) {
-
-        System.out.println(password);
-    }
-
-    @When("I submit valid {username} and {password}")
+/*
+    @When("I submit valid {string} and {string}")
     public void iSubmitValidUsernameAndPassword() {
 
         throw new io.cucumber.java.PendingException();
+    }*/
+
+    @And("I submit <password{string}>")
+    public void iSubmitAPasswordAsPassword(String string) {
+
+        System.out.println(string);
+    }
+
+    @When("I submit <email>")
+    public void iSubmitEmail(String string) {
+
+        System.out.println(string);
+    }
+
+    @When("I submit <email> as email")
+    public void iSubmitEmailAsEmail(String string) {
+
+        System.out.println(string);
     }
 }
