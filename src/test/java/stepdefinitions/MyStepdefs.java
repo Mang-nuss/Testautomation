@@ -19,19 +19,19 @@ public class MyStepdefs {
     @When("I submit {string} as email")
     public void iSubmitAsEmail(String mail) throws InterruptedException {
         LoginAction.fillIn("email",mail);
-        System.out.println(mail);
+        System.out.println("mail: " + mail);
     }
 
     @And("I submit {string} as password")
     public void iSubmitAsPassword(String pwd) throws InterruptedException {
         LoginAction.fillIn("password",pwd);
-        System.out.println(pwd);
+        System.out.println("password: " + pwd);
     }
 
     @And("I submit {string} as username")
     public void iSubmitAsUsername(String usr) throws InterruptedException {
         LoginAction.fillIn("username",usr);
-        System.out.println(usr);
+        System.out.println("username: " + usr);
     }
 
     @And("I submit <username{string}>")
@@ -98,16 +98,4 @@ public class MyStepdefs {
 
         System.out.println(string);
     }
-/*
-    @When("I submit <email>")
-    public void iSubmitEmail(String string) {
-
-        System.out.println(string);
-    }
-
-    @When("I submit <email> as email")
-    public void iSubmitEmailAsEmail(String string) {
-
-        System.out.println(string);
-    }*/
 }

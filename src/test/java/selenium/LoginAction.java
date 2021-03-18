@@ -33,11 +33,17 @@ public class LoginAction {
         //System.out.println(input);
         switch (title) {
             case "email":
+                System.out.println("email");
                 field = driver.findElement(By.xpath("//*[@id='email']"));
+                break;
             case "username":
+                System.out.println("usr");
                 field = driver.findElement(By.xpath("//*[@id='new_username']"));
+                break;
             case "password":
+                System.out.println("pwd");
                 field = driver.findElement(By.xpath("//*[@id='new_password']"));
+                break;
         }
 
         field.click();
