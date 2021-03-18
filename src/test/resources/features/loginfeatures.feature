@@ -3,7 +3,7 @@ Feature: Login issues
   @Tag1
   Scenario Outline: Login works
     Given I am up to register at website
-    When I submit an {email}
+    When I submit {string} as address
     And I submit a {username}
     And I submit a {password}
     And I click on sign-in

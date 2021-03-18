@@ -12,7 +12,7 @@ public class MyStepdefs {
         //throw new io.cucumber.java.PendingException();
     }
 
-    @When("I submit an {email}")
+    @When("I submit {string} as address")
     public void iSubmitAnEmail(String email) {
 
         System.out.println(email);
@@ -83,5 +83,4 @@ public class MyStepdefs {
 
         throw new io.cucumber.java.PendingException();
     }
-
 }
