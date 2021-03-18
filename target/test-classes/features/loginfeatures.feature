@@ -10,7 +10,7 @@ Feature: Login issues
     Then The registration is completed
     Examples:
       | email | username | password |
-      | mail  | usr      | pwd      |
+      | johansson.magnus.86@gmail.com | johanssonmagnus86 | pynfet-1repXi-zadnyv |
 
   @Tag2:
   Scenario Outline: Username contains too many characters
