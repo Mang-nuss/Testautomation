@@ -11,3 +11,15 @@ Feature: Login issues
     Examples:
       | email | username | password |
       | johansson.magnus.86@gmail.com | johanssonmagnus86 | pynfet-1repXi-zadnyv |
+
+  @Tag3:
+  Scenario Outline: Username is taken
+    Given I am up to register at website
+    When I submit valid "<email>" and "<password>"
+    But I submit a "<username>" that is taken since before
+    And I click on sign-in
+    Then There is an error
+    Examples:
+      | email | username | password |
+      | johansson.magnus.86@gmail.com | johanssonmagnus86 | pynfet-1repXi-zadnyv |
+

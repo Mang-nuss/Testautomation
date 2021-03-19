@@ -3,6 +3,8 @@ package stepdefinitions;
 import io.cucumber.java.en.*;
 import selenium.LoginAction;
 
+import java.util.List;
+
 public class MyStepdefs {
 
     /*
@@ -20,6 +22,15 @@ public class MyStepdefs {
     public void iSubmitAsEmail(String mail) throws InterruptedException {
         LoginAction.fillIn("email",mail);
         System.out.println("mail: " + mail);
+    }
+
+    @When("I submit email address")
+    public void ISubmitEmailAddress(io.cucumber.datatable.DataTable dataTable) {
+
+        List<String> data = dataTable.asList(String.class);
+        for(String item: data) {
+            System.out.println(item);
+        }
     }
 
     @And("I submit {string} as password")
@@ -42,8 +53,8 @@ public class MyStepdefs {
     }
 
     @And("I click on sign-in")
-    public void iClickOnSignIn() {
-
+    public void iClickOnSignIn() throws InterruptedException {
+        LoginAction.clickOnSignIn();
         System.out.println("clicking on sign in");
         //throw new io.cucumber.java.PendingException();
     }
@@ -57,8 +68,10 @@ public class MyStepdefs {
     }
 
     @When("I submit valid {string} and {string}")
-    public void iSubmitValidEmailAndPassword() {
-
+    public void iSubmitValidEmailAndPassword(String email, String pwd) throws InterruptedException {
+        LoginAction.fillIn("email",email);
+        Thread.sleep(2000);
+        LoginAction.fillIn("password",pwd);
         System.out.println("step taken");
         //throw new io.cucumber.java.PendingException();
     }
@@ -71,13 +84,13 @@ public class MyStepdefs {
 
     @Then("There is an error")
     public void thereIsAnError() {
-
+        LoginAction.invalidErrorOccurs();
         System.out.println("step taken");
     }
 
     @But("I submit a {string} that is taken since before")
-    public void iSubmitAUsernameThatIsTakenSinceBefore() {
-
+    public void iSubmitAUsernameThatIsTakenSinceBefore(String username) throws InterruptedException {
+        LoginAction.fillIn("username",username);
         System.out.println("step taken");
     }
 

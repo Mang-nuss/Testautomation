@@ -13,6 +13,7 @@ public class LoginAction {
 
     public static WebDriver driver;
     public static WebElement field;
+    public static WebElement button;
     public static WebElement emailField;
     public static WebElement usernameField;
     public static WebElement passwordField;
@@ -49,6 +50,19 @@ public class LoginAction {
         field.click();
         field.sendKeys(input);
         Thread.sleep(3000);
+    }
+
+    public static void invalidErrorOccurs() {
+        field = driver.findElement(By.className("invalid-error"));
+        boolean error = field.isDisplayed();
+        assertTrue(error);
+        driver.quit();
+    }
+
+    public static void clickOnSignIn() throws InterruptedException {
+        button = driver.findElement(By.id("create-account"));
+        button.click();
+        Thread.sleep(2000);
     }
 
     public static void registrationCompleted() {
