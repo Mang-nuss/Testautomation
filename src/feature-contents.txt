@@ -1,5 +1,5 @@
 @Tag1
-Scenario Outline: Login works
+Scenario Outline: Login.Login works
   Given I am up to register at website
   When I submit <email> as email
   And I submit <username> as username

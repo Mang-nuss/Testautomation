@@ -1,3 +1,5 @@
+package Login;
+
 public class Login {
 
     private static String output;
@@ -16,11 +18,11 @@ public class Login {
     }*/
 
     //Only letters and numbers, or the email address
-    public static String generateUniqueUsername() {
+    public static String generateUniqueUsername(int nrOfChars) {
 
         output = "";
 
-        for(int n=0; n<8; n++) {
+        for(int n=0; n<nrOfChars; n++) {
             double nr = ( Math.random() * (usernameChars.length()-1) ) + 1;
             output+=usernameChars.charAt((int)nr);
         }
@@ -32,22 +34,22 @@ public class Login {
     One number
     One special character
     8 characters minimum*/
-    public static String generateUniquePassword() {
+    public static String generateUniquePassword(int nrOfChars) {
 
         output = "";
 
-        for(int n=0; n<8; n++) {
+        for(int n=0; n<nrOfChars; n++) {
             double nr = ( Math.random() * (Chars.length()-1) ) + 1;
             output+=Chars.charAt((int)nr);
         }
         return output;
     }
 
-    public static String generateUniqueEmailAddress() {
+    public static String generateUniqueEmailAddress(int nrOfChars) {
 
         output = "";
 
-        for(int n=0; n<8; n++) {
+        for(int n=0; n<nrOfChars; n++) {
             double nr = ( Math.random() * (Chars.length()-1) ) + 1;
             output+=Chars.charAt((int)nr);
         }

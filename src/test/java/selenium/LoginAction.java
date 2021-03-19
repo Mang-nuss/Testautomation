@@ -65,6 +65,10 @@ public class LoginAction {
         Thread.sleep(2000);
     }
 
+    public static String overlongUsername() {
+        String username = java.generateUniqueUsername(101);
+    }
+
     public static void registrationCompleted() {
         assertTrue(true);
         driver.quit();

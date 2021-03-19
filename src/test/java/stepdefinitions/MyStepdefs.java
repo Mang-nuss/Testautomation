@@ -67,16 +67,14 @@ public class MyStepdefs {
         //throw new io.cucumber.java.PendingException();
     }
 
-    @When("I submit valid {string} and {string}")
+    @When("I submit valid {string} as email and {string} as password")
     public void iSubmitValidEmailAndPassword(String email, String pwd) throws InterruptedException {
         LoginAction.fillIn("email",email);
         Thread.sleep(2000);
         LoginAction.fillIn("password",pwd);
-        System.out.println("step taken");
-        //throw new io.cucumber.java.PendingException();
     }
 
-    @But("I submit a {string} too extensive")
+    @But("I submit a username too extensive")
     public void iSubmitAUsernameTooExtensive() {
 
         System.out.println("step taken");
@@ -94,17 +92,18 @@ public class MyStepdefs {
         System.out.println("step taken");
     }
 
-    @But("I forget to submit an {string}")
+    @But("I forget to submit an email")
     public void iForgetToSubmitAnEmail() {
 
-        System.out.println("step taken");
+        System.out.println("forgot!");
     }
-/*
-    @When("I submit valid {string} and {string}")
-    public void iSubmitValidUsernameAndPassword() {
 
-        throw new io.cucumber.java.PendingException();
-    }*/
+    @When("I submit valid {string} as username and {string} as password")
+    public void iSubmitValidUsernameAndPassword(String username, String pwd) throws InterruptedException {
+        LoginAction.fillIn("username",username);
+        Thread.sleep(2000);
+        LoginAction.fillIn("password",pwd);
+    }
 
     @And("I submit <password{string}>")
     public void iSubmitAPasswordAsPassword(String string) {
