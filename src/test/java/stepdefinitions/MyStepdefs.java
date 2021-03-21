@@ -18,12 +18,6 @@ public class MyStepdefs {
         System.out.println("step taken");
     }
 
-    @When("I submit {string} as email")
-    public void iSubmitAsEmail(String mail) throws InterruptedException {
-        LoginAction.fillIn("email",mail);
-        System.out.println("mail: " + mail);
-    }
-
     @When("I submit email address")
     public void ISubmitEmailAddress(io.cucumber.datatable.DataTable dataTable) {
 
@@ -31,18 +25,6 @@ public class MyStepdefs {
         for(String item: data) {
             System.out.println(item);
         }
-    }
-
-    @And("I submit {string} as password")
-    public void iSubmitAsPassword(String pwd) throws InterruptedException {
-        LoginAction.fillIn("password",pwd);
-        System.out.println("password: " + pwd);
-    }
-
-    @And("I submit {string} as username")
-    public void iSubmitAsUsername(String usr) throws InterruptedException {
-        LoginAction.fillIn("username",usr);
-        System.out.println("username: " + usr);
     }
 
     @And("I submit <username{string}>")
@@ -74,22 +56,28 @@ public class MyStepdefs {
         LoginAction.fillIn("password",pwd);
     }
 
-    @But("I submit a username too extensive")
-    public void iSubmitAUsernameTooExtensive() {
-
-        System.out.println("step taken");
+    @But("I submit a username too extensive, containing {int} characters")
+    public void iSubmitAUsernameTooExtensive(int nrOfChars) throws InterruptedException {
+        String usr = LoginAction.overlongUsername(nrOfChars);
+        LoginAction.fillIn("username",usr);
     }
 
-    @Then("There is an error")
-    public void thereIsAnError() {
+    @Then("There is an error saying username is taken")
+    public void thereIsAnErrorSayingUsernameIsTaken() {
         LoginAction.invalidErrorOccurs();
-        System.out.println("step taken");
+        System.out.println("username duplicate error outprint");
+    }
+
+    @Then("There is an error message saying that {int} characters are at least one too many")
+    public void overlongError(int nrOfChars) {
+        LoginAction.overlongUsernameErrorOccurs(nrOfChars);
+        System.out.println("overlong username error outprint");
     }
 
     @But("I submit a {string} that is taken since before")
     public void iSubmitAUsernameThatIsTakenSinceBefore(String username) throws InterruptedException {
         LoginAction.fillIn("username",username);
-        System.out.println("step taken");
+        System.out.println("username taken");
     }
 
     @But("I forget to submit an email")
@@ -109,5 +97,26 @@ public class MyStepdefs {
     public void iSubmitAPasswordAsPassword(String string) {
 
         System.out.println(string);
+    }
+
+    @Then("There is an error saying that email is missing")
+    public void thereIsAnErrorSayingThatEmailIsMissing() {
+        LoginAction.invalidErrorOccurs();
+        System.out.println("email error outprint");
+    }
+
+    @When("I submit an email using {string}")
+    public void iSubmitAnEmailUsing(int nrOfChars, String premise) throws InterruptedException {
+        LoginAction.conditionedFillIn("email",nrOfChars,premise);
+    }
+
+    @And("I submit a username using {string}")
+    public void iSubmitAUsernameUsing(int nrOfChars, String premise) throws InterruptedException {
+        LoginAction.conditionedFillIn("username",nrOfChars,premise);
+    }
+
+    @And("I submit a password using {string}")
+    public void iSubmitAPasswordUsing(int nrOfChars, String premise) throws InterruptedException {
+        LoginAction.conditionedFillIn("password",nrOfChars,premise);
     }
 }

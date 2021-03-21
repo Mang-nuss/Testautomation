@@ -3,6 +3,7 @@ package Login;
 public class Login {
 
     private static String output;
+    private static String suffix;
     private static String lowercases = "abcdefghijklmnopqrstuvwxyz";
     private static String uppercases = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static String numbers = "0123456789";
@@ -11,6 +12,18 @@ public class Login {
     private static String usernameChars = lowercases + uppercases + numbers;
     private static String Chars = usernameChars + specials;
 
+    public static String randomise(String set, int nrOfChars) {
+
+        output = "";
+
+        for(int n=0; n<nrOfChars; n++) {
+            double nr = ( Math.random() * (set.length()-1) ) + 1;
+            output+=set.charAt((int)nr);
+        }
+
+        return output;
+    }
+
 /*    public static void main(String[] args) {
 
         System.out.println(generateUniqueUsername());
@@ -18,14 +31,32 @@ public class Login {
     }*/
 
     //Only letters and numbers, or the email address
-    public static String generateUniqueUsername(int nrOfChars) {
+    public static String generateUniqueUsername(int nrOfChars, String premise) {
 
         output = "";
 
-        for(int n=0; n<nrOfChars; n++) {
-            double nr = ( Math.random() * (usernameChars.length()-1) ) + 1;
-            output+=usernameChars.charAt((int)nr);
+        switch (premise) {
+            case "none":
+                output = randomise(usernameChars,nrOfChars);
+                break;
+
+            case "upper+int":
+                output = randomise(uppercases,nrOfChars/2);
+                output+=randomise(numbers,nrOfChars/2);
+                break;
+
+            case "lower+int":
+                output = randomise(lowercases,nrOfChars/2);
+                output+=randomise(numbers,nrOfChars/2);
+                break;
+
+            case "lower+upper+int":
+                output = randomise(lowercases,nrOfChars/2);
+                output = randomise(uppercases,nrOfChars/2);
+                output+=randomise(numbers,nrOfChars/2);
+                break;
         }
+
         return output;
     }
 
@@ -34,25 +65,37 @@ public class Login {
     One number
     One special character
     8 characters minimum*/
-    public static String generateUniquePassword(int nrOfChars) {
+    public static String generateUniquePassword(int nrOfChars, String premise) {
 
         output = "";
 
-        for(int n=0; n<nrOfChars; n++) {
-            double nr = ( Math.random() * (Chars.length()-1) ) + 1;
-            output+=Chars.charAt((int)nr);
+        switch (premise) {
+            case "random choice":
+                output+=randomise(Chars,nrOfChars);
+                break;
         }
+
         return output;
     }
 
-    public static String generateUniqueEmailAddress(int nrOfChars) {
+    public static String generateUniqueEmailAddress(int nrOfChars, String premise) {
 
         output = "";
 
-        for(int n=0; n<nrOfChars; n++) {
-            double nr = ( Math.random() * (Chars.length()-1) ) + 1;
-            output+=Chars.charAt((int)nr);
+        output+=randomise(Chars,nrOfChars);
+
+        switch (premise) {
+            case "none": //using standard suffix, gmail.com
+                output = output + "@gmail.com";
+                break;
+            case "twisted email suffix":
+                suffix = randomise(Chars,nrOfChars);
+                output = output + "@" + suffix + "mail.com";
+                break;
+            case "no email suffix":
+                break;
         }
-        return output+"@email.com";
+
+        return output;
     }
 }

@@ -1,6 +1,7 @@
 package selenium;
 
 import org.junit.Test;
+import Login.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -14,9 +15,8 @@ public class LoginAction {
     public static WebDriver driver;
     public static WebElement field;
     public static WebElement button;
-    public static WebElement emailField;
-    public static WebElement usernameField;
-    public static WebElement passwordField;
+    public static String username;
+    public static String inputData;
 
 
     public static void enterSite() throws InterruptedException {
@@ -29,10 +29,10 @@ public class LoginAction {
 
     }
 
-    public static void fillIn(String title, String input) throws InterruptedException {
+    public static void fillIn(String attribute, String input) throws InterruptedException {
 
         //System.out.println(input);
-        switch (title) {
+        switch (attribute) {
             case "email":
                 System.out.println("email");
                 field = driver.findElement(By.xpath("//*[@id='email']"));
@@ -52,10 +52,45 @@ public class LoginAction {
         Thread.sleep(3000);
     }
 
+    public static void conditionedFillIn(String attribute, int nrOfChars, String premise) throws InterruptedException {
+
+        //System.out.println(input);
+        switch (attribute) {
+            case "email":
+                System.out.println("email");
+                field = driver.findElement(By.xpath("//*[@id='email']"));
+                inputData = Login.generateUniqueEmailAddress(nrOfChars,premise);
+                break;
+            case "username":
+                System.out.println("usr");
+                field = driver.findElement(By.xpath("//*[@id='new_username']"));
+                inputData = Login.generateUniqueUsername(nrOfChars,premise);
+                break;
+            case "password":
+                System.out.println("pwd");
+                field = driver.findElement(By.xpath("//*[@id='new_password']"));
+                inputData = Login.generateUniquePassword(nrOfChars,premise);
+                break;
+        }
+
+        field.click();
+        field.sendKeys(inputData);
+        Thread.sleep(3000);
+    }
+
     public static void invalidErrorOccurs() {
         field = driver.findElement(By.className("invalid-error"));
         boolean error = field.isDisplayed();
         assertTrue(error);
+        driver.quit();
+    }
+
+    public static void overlongUsernameErrorOccurs(int nrOfChars) {
+        field = driver.findElement(By.className("invalid-error"));
+        boolean error = field.isDisplayed();
+
+        if(nrOfChars <= 100) { assertFalse(error); }
+        else { assertTrue(error); }
         driver.quit();
     }
 
@@ -65,8 +100,9 @@ public class LoginAction {
         Thread.sleep(2000);
     }
 
-    public static String overlongUsername() {
-        String username = java.generateUniqueUsername(101);
+    public static String overlongUsername(int nr) {
+        username = Login.generateUniqueUsername(nr,"none");
+        return username;
     }
 
     public static void registrationCompleted() {
