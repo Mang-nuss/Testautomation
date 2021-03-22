@@ -49,9 +49,9 @@ public class MyStepdefs {
         //throw new io.cucumber.java.PendingException();
     }
 
-    @When("I submit valid {string} as email and {string} as password")
-    public void iSubmitValidEmailAndPassword(String email, String pwd) throws InterruptedException {
-        LoginAction.fillIn("email",email);
+    @When("I submit valid {string} as username and {string} as password")
+    public void iSubmitValidUsernameAndPassword(String username, String pwd) throws InterruptedException {
+        LoginAction.fillIn("username",username);
         Thread.sleep(2000);
         LoginAction.fillIn("password",pwd);
     }
@@ -62,14 +62,20 @@ public class MyStepdefs {
         LoginAction.fillIn("username",usr);
     }
 
+    @Then("There is an error saying that email is missing")
+    public void thereIsAnErrorSayingThatEmailIsMissing() throws InterruptedException {
+        LoginAction.invalidErrorOccurs();
+        System.out.println("email error outprint");
+    }
+
     @Then("There is an error saying username is taken")
-    public void thereIsAnErrorSayingUsernameIsTaken() {
+    public void thereIsAnErrorSayingUsernameIsTaken() throws InterruptedException {
         LoginAction.invalidErrorOccurs();
         System.out.println("username duplicate error outprint");
     }
 
     @Then("There is an error message saying that {int} characters are at least one too many")
-    public void overlongError(int nrOfChars) {
+    public void overlongError(int nrOfChars) throws InterruptedException {
         LoginAction.overlongUsernameErrorOccurs(nrOfChars);
         System.out.println("overlong username error outprint");
     }
@@ -86,37 +92,31 @@ public class MyStepdefs {
         System.out.println("forgot!");
     }
 
-    @When("I submit valid {string} as username and {string} as password")
-    public void iSubmitValidUsernameAndPassword(String username, String pwd) throws InterruptedException {
-        LoginAction.fillIn("username",username);
-        Thread.sleep(2000);
-        LoginAction.fillIn("password",pwd);
-    }
-
     @And("I submit <password{string}>")
     public void iSubmitAPasswordAsPassword(String string) {
 
         System.out.println(string);
     }
 
-    @Then("There is an error saying that email is missing")
-    public void thereIsAnErrorSayingThatEmailIsMissing() {
-        LoginAction.invalidErrorOccurs();
-        System.out.println("email error outprint");
-    }
-
-    @When("I submit an email using {string}")
-    public void iSubmitAnEmailUsing(int nrOfChars, String premise) throws InterruptedException {
+    @When("I submit an email of {int} characters, using {string}")
+    public void iSubmitAnEmailOfIntCharactersUsing(int nrOfChars, String premise) throws InterruptedException {
         LoginAction.conditionedFillIn("email",nrOfChars,premise);
     }
 
-    @And("I submit a username using {string}")
-    public void iSubmitAUsernameUsing(int nrOfChars, String premise) throws InterruptedException {
+    @And("I submit a username of {int} characters, using {string}")
+    public void iSubmitAUsernameOfIntCharactersUsing(int nrOfChars, String premise) throws InterruptedException {
         LoginAction.conditionedFillIn("username",nrOfChars,premise);
     }
 
-    @And("I submit a password using {string}")
-    public void iSubmitAPasswordUsing(int nrOfChars, String premise) throws InterruptedException {
+    @And("I submit a password of {int} characters, using {string}")
+    public void iSubmitAPasswordOfIntCharactersUsing(int nrOfChars, String premise) throws InterruptedException {
         LoginAction.conditionedFillIn("password",nrOfChars,premise);
+    }
+
+    @When("I submit valid {string} as email and {string} as password")
+    public void iSubmitValidEmailAndPassword(String email, String pwd) throws InterruptedException {
+        LoginAction.fillIn("email",email);
+        Thread.sleep(2000);
+        LoginAction.fillIn("password",pwd);
     }
 }

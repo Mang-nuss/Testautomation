@@ -7,10 +7,11 @@ public class Login {
     private static String lowercases = "abcdefghijklmnopqrstuvwxyz";
     private static String uppercases = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static String numbers = "0123456789";
-    private static String specials = "!\"@#€%&/|()=?+-_^¨*'";
+    private static String specials = "!#€%&/|()=?+-_^¨*";
 
     private static String usernameChars = lowercases + uppercases + numbers;
-    private static String Chars = usernameChars + specials;
+    private static String emailChars = usernameChars + specials;
+    private static String Chars = usernameChars + specials + "@'";
 
     public static String randomise(String set, int nrOfChars) {
 
@@ -82,17 +83,17 @@ public class Login {
 
         output = "";
 
-        output+=randomise(Chars,nrOfChars);
+        output+=randomise(emailChars,nrOfChars);
 
         switch (premise) {
             case "none": //using standard suffix, gmail.com
                 output = output + "@gmail.com";
                 break;
             case "twisted email suffix":
-                suffix = randomise(Chars,nrOfChars);
+                suffix = randomise(emailChars,nrOfChars);
                 output = output + "@" + suffix + "mail.com";
                 break;
-            case "no email suffix":
+            case "no email suffix": //should fail
                 break;
         }
 

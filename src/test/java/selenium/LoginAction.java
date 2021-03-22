@@ -58,7 +58,7 @@ public class LoginAction {
         switch (attribute) {
             case "email":
                 System.out.println("email");
-                field = driver.findElement(By.xpath("//*[@id='email']"));
+                field = driver.findElement(By.cssSelector("input[type=email]"));
                 inputData = Login.generateUniqueEmailAddress(nrOfChars,premise);
                 break;
             case "username":
@@ -78,26 +78,28 @@ public class LoginAction {
         Thread.sleep(3000);
     }
 
-    public static void invalidErrorOccurs() {
+    public static void invalidErrorOccurs() throws InterruptedException {
         field = driver.findElement(By.className("invalid-error"));
         boolean error = field.isDisplayed();
         assertTrue(error);
+        Thread.sleep(2000);
         driver.quit();
     }
 
-    public static void overlongUsernameErrorOccurs(int nrOfChars) {
+    public static void overlongUsernameErrorOccurs(int nrOfChars) throws InterruptedException {
         field = driver.findElement(By.className("invalid-error"));
         boolean error = field.isDisplayed();
 
         if(nrOfChars <= 100) { assertFalse(error); }
         else { assertTrue(error); }
+        Thread.sleep(2000);
         driver.quit();
     }
 
     public static void clickOnSignIn() throws InterruptedException {
         button = driver.findElement(By.id("create-account"));
         button.click();
-        Thread.sleep(2000);
+        Thread.sleep(4000);
     }
 
     public static String overlongUsername(int nr) {
@@ -106,7 +108,10 @@ public class LoginAction {
     }
 
     public static void registrationCompleted() {
-        assertTrue(true);
+        field = driver.findElement(By.xpath("//*[contains(text(),'Check your email')]"));
+        //field = driver.findElement(By.className("!margin-bottom--lv3 no-transform center-on-medium"));
+        boolean success = field.isDisplayed();
+        assertTrue(success);
         driver.quit();
     }
 }

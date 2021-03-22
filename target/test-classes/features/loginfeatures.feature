@@ -5,16 +5,16 @@ Feature: Login issues
   @Tag1
   Scenario Outline: Registration works
     Given I am up to register at website
-    When I submit an email using "<email-premise>"
-    And I submit a username using "<username-premise>"
-    And I submit a password using "<password-premise>"
+    When I submit an email of <int> characters, using "<email-premise>"
+    And I submit a username of <int> characters, using "<username-premise>"
+    And I submit a password of <int> characters, using "<password-premise>"
     And I click on sign-in
     Then The registration is completed
     Examples:
-      | email-premise | username-premise | password-premise |
-      | no email suffix | lower+upper+int | random choice |
-      | twisted email suffix | lower+int  | random choice |
-      | taken email          | upper+int  | random choice |
+      | int | email-premise | username-premise | password-premise |
+      | 15 | none | lower+upper+int | random choice |
+      | 20 | none | lower+int  | random choice |
+      | 25 | none | upper+int  | random choice |
 
     # The nrs of characters are set to 99, 100, and 101, to check bound values
   @Tag2:
@@ -37,10 +37,10 @@ Feature: Login issues
     When I submit valid "<email>" as email and "<password>" as password
     But I submit a "<username>" that is taken since before
     And I click on sign-in
-    Then There is an error
+    Then There is an error saying username is taken
     Examples:
-      | email | username | password |
-      | johansson.magnus.86@gmail.com | johanssonmagnus86 | pynfet-1repXi-zadnyv |
+      | email | password | username |
+      | johansson.magnus.86\"@gmail.com | pynfet-1repXi-zadnyv | johanssonmagnus86 |
 
   @Tag4:
   Scenario Outline: Email is missing
