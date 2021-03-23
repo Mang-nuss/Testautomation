@@ -14,8 +14,8 @@ public class MyStepdefs {
 
     @Given("I am up to register at website")
     public void i_am_up_to_register_at_website() throws InterruptedException {
-        LoginAction.enterSite();
-        System.out.println("step taken");
+        LoginAction.enterSite("Chrome");
+        System.out.println("entering site");
     }
 
     @When("I submit email address")

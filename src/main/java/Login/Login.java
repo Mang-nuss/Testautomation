@@ -1,7 +1,13 @@
 package Login;
 
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.safari.SafariDriver;
+
 public class Login {
 
+    private static WebDriver driver;
     private static String output;
     private static String suffix;
     private static String lowercases = "abcdefghijklmnopqrstuvwxyz";
@@ -12,6 +18,25 @@ public class Login {
     private static String usernameChars = lowercases + uppercases + numbers;
     private static String emailChars = usernameChars + specials;
     private static String Chars = usernameChars + specials + "@'";
+
+    public static WebDriver initiateBrowser(String browser) {
+
+        switch (browser) {
+            case "Chrome":
+                System.setProperty("webdriver.chrome.driver", "/Users/magnusjohansson/chromedriver");
+                driver = new ChromeDriver();
+                break;
+            case "Safari":
+                driver = new SafariDriver();
+                break;
+            case "FF":
+                System.setProperty("webdriver.gecko.driver", "/Users/magnusjohansson/chromedriver");
+                driver = new FirefoxDriver();
+                break;
+        }
+
+        return driver;
+    }
 
     public static String randomise(String set, int nrOfChars) {
 

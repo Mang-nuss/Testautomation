@@ -6,6 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.safari.SafariDriver;
 
 import static org.junit.Assert.*;
 import static org.openqa.selenium.By.cssSelector;
@@ -19,10 +21,9 @@ public class LoginAction {
     public static String inputData;
 
 
-    public static void enterSite() throws InterruptedException {
+    public static void enterSite(String browser) throws InterruptedException {
 
-        System.setProperty("webdriver.chrome.driver", "/Users/magnusjohansson/chromedriver");
-        driver = new ChromeDriver();
+        Login.initiateBrowser(browser);
         driver.get("https://login.mailchimp.com/signup/");
         Thread.sleep(3000);
         //driver.quit();
