@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -28,8 +29,8 @@ public class LoginAction {
         System.setProperty("webdriver.chrome.driver", "/Users/magnusjohansson/chromedriver");
         driver = new ChromeDriver();
         driver.get("https://login.mailchimp.com/signup/");
-        //Thread.sleep(3000);
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
+        //Thread.sleep(3000); //not preferable
+        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
         elements = (ArrayList<WebElement>) driver.findElements(By.cssSelector("input[name='password']"));
         for(WebElement e : elements) { System.out.println("text: " + (e.getAttribute("name"))); }
 
@@ -39,10 +40,10 @@ public class LoginAction {
 
     public static void click(By by, int seconds) { //includes waiting
 
-        driver = new ChromeDriver();
+        //driver = new ChromeDriver();
 
-        driver(by,10).until(ExpectedConditions.elementToBeClickable(by));
-        driver.findElement().click();
+        (new WebDriverWait(driver,seconds)).until(ExpectedConditions.elementToBeClickable(by)); //explicit wait
+        driver.findElement(by).click(); //can also be used for sending keys.
     }
 
     public static void fillIn(String attribute, String input) throws InterruptedException {
