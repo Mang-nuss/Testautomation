@@ -35,7 +35,7 @@ public class LoginAction {
         switch (attribute) {
             case "email":
                 System.out.println("email");
-                field = driver.findElement(By.xpath("//*[@id='email']"));
+                field = driver.findElement(By.cssSelector("input#email"));
                 break;
             case "username":
                 System.out.println("usr");
