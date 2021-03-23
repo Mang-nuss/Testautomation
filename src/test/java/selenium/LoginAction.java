@@ -66,7 +66,7 @@ public class LoginAction {
 
         field.click();
         field.sendKeys(input);
-        Thread.sleep(3000);
+        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
     }
 
     public static void conditionedFillIn(String attribute, int nrOfChars, String premise) throws InterruptedException {
