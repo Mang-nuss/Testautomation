@@ -43,6 +43,8 @@ public class UntitledTest {
     driver.get("https://www.marshu.com/articles/calculate-addition-calculator-add-two-numbers.php");
     driver.findElement(By.name("n01")).sendKeys("10");
     driver.findElement(By.name("n02")).sendKeys("10");
-    driver.findElement(By.cssSelector("p:nth-child(4) > input")).click();
+    //driver.findElement(By.cssSelector("p:nth-child(4) > input")).click();
+    WebElement e = driver.findElement(By.cssSelector("p:nth-child(4) > input"));
+    js.executeScript("arguments[0].click();", e);
   }
 }

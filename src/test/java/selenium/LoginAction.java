@@ -56,11 +56,11 @@ public class LoginAction {
                 break;
             case "username":
                 System.out.println("usr");
-                field = driver.findElement(By.xpath("//*[@id='new_username']"));
+                field = driver.findElement(By.cssSelector("input[id^='new_user']"));
                 break;
             case "password":
                 System.out.println("pwd");
-                field = driver.findElement(By.xpath("//*[@id='new_password']"));
+                field = driver.findElement(By.cssSelector("input[id*='ew_passwor']"));
                 break;
         }
 
