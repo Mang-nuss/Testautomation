@@ -23,7 +23,7 @@ public class LoginAction {
 
     public static void enterSite(String browser) throws InterruptedException {
 
-        Login.initiateBrowser(browser);
+        driver = Login.initiateBrowser(browser);
         driver.get("https://login.mailchimp.com/signup/");
         Thread.sleep(3000);
         //driver.quit();
