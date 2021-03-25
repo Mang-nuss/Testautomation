@@ -30,7 +30,7 @@ public class Login {
                 driver = new SafariDriver();
                 break;
             case "FF":
-                System.setProperty("webdriver.gecko.driver", "/Users/magnusjohansson/chromedriver");
+                System.setProperty("webdriver.gecko.driver", "/Users/magnusjohansson/geckodriver");
                 driver = new FirefoxDriver();
                 break;
         }
