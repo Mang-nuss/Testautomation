@@ -102,6 +102,7 @@ public class UntitledTest {
     element = driver.findElement(by.tagName("h1"));
     System.out.println("text: " + element.getText());
     assertTrue(element.isDisplayed());
+    //assertEquals(driver.getTitle(), "Manifestet for smidig programvareutvekling");
     Thread.sleep(2000);
 
     //body > center > p:nth-child(10) > font:nth-child(2)
