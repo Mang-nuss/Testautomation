@@ -2,6 +2,7 @@ package stepdefinitions;
 
 import io.cucumber.java.en.*;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.LoginAction;
 
 import java.util.Collection;

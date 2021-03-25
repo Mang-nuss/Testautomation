@@ -52,7 +52,9 @@ public class LoginAction {
         switch (attribute) {
             case "email":
                 System.out.println("email");
-                field = driver.findElement(By.cssSelector("input#email"));
+                //field = driver.findElement(By.cssSelector("input#email"));
+                WebDriverWait wait = new WebDriverWait(driver, 10);
+                field = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input#email")));
                 break;
             case "username":
                 System.out.println("usr");
@@ -64,6 +66,8 @@ public class LoginAction {
                 break;
         }
 
+        button = driver.findElement(By.cssSelector("input[name='marketing_newsletter']"));
+        click(By.cssSelector("input[name='marketing_newsletter']"), 5);
         field.click();
         field.sendKeys(input);
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
