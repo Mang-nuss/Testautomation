@@ -47,4 +47,9 @@ public class UntitledTest {
     WebElement e = driver.findElement(By.cssSelector("p:nth-child(4) > input"));
     js.executeScript("arguments[0].click();", e);
   }
+
+  public void exploreTheManifesto() {
+    System.setProperty("webdriver.chrome.driver", "/Users/magnusjohansson/chromedriver");
+    driver = new ChromeDriver();
+  }
 }
