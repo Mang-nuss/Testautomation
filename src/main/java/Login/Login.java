@@ -13,11 +13,11 @@ public class Login {
     private static String lowercases = "abcdefghijklmnopqrstuvwxyz";
     private static String uppercases = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static String numbers = "0123456789";
-    private static String specials = "!#€%&/|()=?+-_^¨*";
+    private static String specials = "!#€%&|()=?+-_*";
 
     private static String usernameChars = lowercases + uppercases + numbers;
     private static String emailChars = usernameChars + specials;
-    private static String Chars = usernameChars + specials + "@'";
+    private static String Chars = usernameChars + specials + "/@'^¨"; //these chars seem to be invalid in emails
 
     public static WebDriver initiateBrowser(String browser) {
 

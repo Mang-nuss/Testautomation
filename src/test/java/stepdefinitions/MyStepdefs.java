@@ -105,17 +105,17 @@ public class MyStepdefs {
     }
 
     @When("I submit an email of {int} characters, using {string}")
-    public void iSubmitAnEmailOfIntCharactersUsing(int nrOfChars, String premise) throws InterruptedException {
+    public void iSubmitAnEmailOfIntCharactersUsing(int nrOfChars, String premise) {
         LoginAction.conditionedFillIn("email",nrOfChars,premise);
     }
 
     @And("I submit a username of {int} characters, using {string}")
-    public void iSubmitAUsernameOfIntCharactersUsing(int nrOfChars, String premise) throws InterruptedException {
+    public void iSubmitAUsernameOfIntCharactersUsing(int nrOfChars, String premise) {
         LoginAction.conditionedFillIn("username",nrOfChars,premise);
     }
 
     @And("I submit a password of {int} characters, using {string}")
-    public void iSubmitAPasswordOfIntCharactersUsing(int nrOfChars, String premise) throws InterruptedException {
+    public void iSubmitAPasswordOfIntCharactersUsing(int nrOfChars, String premise) {
         LoginAction.conditionedFillIn("password",nrOfChars,premise);
     }
 
