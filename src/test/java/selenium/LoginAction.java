@@ -8,6 +8,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.junit.Assert.*;
 import static org.openqa.selenium.By.cssSelector;
@@ -30,28 +32,33 @@ public class LoginAction {
 
     }
 
+    public static void click(By by, int seconds) { //includes waiting
+
+        //driver = new ChromeDriver();
+
+        (new WebDriverWait(driver,seconds)).until(ExpectedConditions.elementToBeClickable(by)); //explicit wait
+        driver.findElement(by).click(); //can also be used for sending keys.
+    }
+
     public static void fillIn(String attribute, String input) throws InterruptedException {
 
         //System.out.println(input);
         switch (attribute) {
             case "email":
                 System.out.println("email");
-                field = driver.findElement(By.cssSelector("input#email"));
+                //field = driver.findElement(By.cssSelector("input#email"));
+                WebDriverWait wait = new WebDriverWait(driver, 10);
+                field = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input#email")));
                 break;
             case "username":
                 System.out.println("usr");
-                field = driver.findElement(By.xpath("//*[@id='new_username']"));
+                field = driver.findElement(By.cssSelector("input[id^='new_user']"));
                 break;
             case "password":
                 System.out.println("pwd");
-                field = driver.findElement(By.xpath("//*[@id='new_password']"));
+                field = driver.findElement(By.cssSelector("input[id*='ew_passwor']"));
                 break;
         }
-
-        field.click();
-        field.sendKeys(input);
-        Thread.sleep(3000);
-    }
 
     public static void conditionedFillIn(String attribute, int nrOfChars, String premise) throws InterruptedException {
 
