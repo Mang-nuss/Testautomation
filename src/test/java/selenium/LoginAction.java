@@ -11,6 +11,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static org.junit.Assert.*;
 import static org.openqa.selenium.By.cssSelector;
@@ -22,17 +26,16 @@ public class LoginAction {
     public static WebElement button;
     public static String username;
     public static String inputData;
-    public static ArrayList<WebElement> elements = new ArrayList<WebElement>();
+    //public static ArrayList<WebElement> elements = new ArrayList<WebElement>();
 
-    public static void enterSite() throws InterruptedException {
+    public static void enterSite(String browser) throws InterruptedException {
 
-        System.setProperty("webdriver.chrome.driver", "/Users/magnusjohansson/chromedriver");
-        driver = new ChromeDriver();
+        driver = Login.initiateBrowser(browser);
         driver.get("https://login.mailchimp.com/signup/");
         //Thread.sleep(3000); //not preferable
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
-        elements = (ArrayList<WebElement>) driver.findElements(By.cssSelector("input[name='password']"));
-        for(WebElement e : elements) { System.out.println("text: " + (e.getAttribute("name"))); }
+        //elements = (ArrayList<WebElement>) driver.findElements(By.cssSelector("input[name='password']"));
+        //for(WebElement e : elements) { System.out.println("text: " + (e.getAttribute("name"))); }
 
         //driver.quit();
 

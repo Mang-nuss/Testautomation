@@ -17,10 +17,16 @@ public class MyStepdefs {
     * all included in s
     * */
 
+    @Given("I am up to register at website, using {string}")
+    public void i_am_up_to_register_at_website(String browser) throws InterruptedException {
+        LoginAction.enterSite(browser);
+        System.out.println("entering site");
+    }
+
     @Given("I am up to register at website")
-    public void i_am_up_to_register_at_website() throws InterruptedException {
-        LoginAction.enterSite();
-        System.out.println("step taken");
+    public void iAmUpToRegisterAtWebsite() throws InterruptedException {
+        LoginAction.enterSite("Chrome");
+        System.out.println("entering site");
     }
 
     @When("I submit email address")
