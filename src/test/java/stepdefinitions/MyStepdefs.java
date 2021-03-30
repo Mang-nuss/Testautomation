@@ -1,6 +1,9 @@
 package stepdefinitions;
 
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.*;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.LoginAction;
@@ -16,6 +19,11 @@ public class MyStepdefs {
     * Learned: all steps must be compilable before running a single scenario s, even though they are not
     * all included in s
     * */
+
+/*    @Before
+    public void beforeAll() {
+        System.out.println("starting off");
+    }*/
 
     @Given("I am up to register at website, using {string}")
     public void i_am_up_to_register_at_website(String browser) throws InterruptedException {
@@ -130,4 +138,15 @@ public class MyStepdefs {
         Thread.sleep(2000);
         LoginAction.fillIn("password",pwd);
     }
+
+    @Then("If the nr {int} of characters is larger than 99, there is an error message")
+    public void ifTheNrOfCharactersAreOrLargerThereIsAnErrorMessage(int nrOfChars) throws InterruptedException {
+        LoginAction.overlongUsernameErrorOccurs(nrOfChars);
+        System.out.println("overlong username error outprint");
+    }
+
+/*    @After
+    public void quitDriver(WebDriver driver) {
+        driver.quit();
+    }*/
 }
