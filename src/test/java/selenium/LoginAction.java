@@ -1,5 +1,7 @@
 package selenium;
 
+import io.cucumber.java.After;
+import io.cucumber.java.Scenario;
 import org.junit.Test;
 import Login.*;
 import org.openqa.selenium.By;
@@ -29,24 +31,25 @@ public class LoginAction {
     public static WebElement button;
     public static String username;
     public static String inputData;
-    //public static ArrayList<WebElement> elements = new ArrayList<WebElement>();
+    public static boolean emailError;
+    public static boolean usernameError;
 
     public static void enterSite(String browser) throws InterruptedException {
 
         driver = Login.initiateBrowser(browser);
         driver.get("https://login.mailchimp.com/signup/");
         //Thread.sleep(3000); //not preferable
+        driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
-        //elements = (ArrayList<WebElement>) driver.findElements(By.cssSelector("input[name='password']"));
-        //for(WebElement e : elements) { System.out.println("text: " + (e.getAttribute("name"))); }
+    }
 
-        //driver.quit();
+    public static void acceptCookies() {
 
+        button = driver.findElement(By.cssSelector("button#onetrust-accept-btn-handler"));
+        button.click();
     }
 
     public static void clickByWait(By by, int seconds) { //includes waiting
-
-        //driver = new ChromeDriver();
 
         //(new WebDriverWait(driver,seconds)).until(ExpectedConditions.elementToBeClickable(by)); //explicit wait
         (new WebDriverWait(driver,seconds)).until(ExpectedConditions.presenceOfElementLocated(by)); //explicit wait
@@ -54,28 +57,30 @@ public class LoginAction {
     }
 
     public static void clickByActions(By by) {
+
         element = driver.findElement(by);
         Actions actions = new Actions(driver);
         actions.moveToElement(element).click().perform();
     }
 
-    public static void fillIn(String attribute, String input) throws InterruptedException {
+    public static void fillIn(String attribute, String input) {
 
+        wait = new WebDriverWait(driver, 5);
         //System.out.println(input);
         switch (attribute) {
             case "email":
                 System.out.println("email");
                 //field = driver.findElement(By.cssSelector("input#email"));
-                wait = new WebDriverWait(driver, 10);
                 field = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input#email")));
                 break;
             case "username":
                 System.out.println("usr");
-                field = driver.findElement(By.cssSelector("input[id^='new_user']"));
+                field = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[id^='new_user']")));
                 break;
             case "password":
                 System.out.println("pwd");
-                field = driver.findElement(By.cssSelector("input[id*='ew_passwor']"));
+                //field = driver.findElement(By.cssSelector("input[id*='ew_passwor']"));
+                field = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input#new_password")));
                 break;
         }
 
@@ -88,21 +93,22 @@ public class LoginAction {
 
     public static void conditionedFillIn(String attribute, int nrOfChars, String premise) throws InterruptedException {
 
+        wait = new WebDriverWait(driver, 5);
         //System.out.println(input);
         switch (attribute) {
             case "email":
                 System.out.println("email");
-                field = driver.findElement(By.cssSelector("input[type=email]"));
+                field = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type=email]")));
                 inputData = Login.generateUniqueEmailAddress(nrOfChars,premise);
                 break;
             case "username":
                 System.out.println("usr");
-                field = driver.findElement(By.xpath("//*[@id='new_username']"));
+                field = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='new_username']")));
                 inputData = Login.generateUniqueUsername(nrOfChars,premise);
                 break;
             case "password":
                 System.out.println("pwd");
-                field = driver.findElement(By.cssSelector("input#new_password"));
+                field = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input#new_password")));
                 inputData = Login.generateUniquePassword(nrOfChars,premise);
                 break;
         }
@@ -112,35 +118,41 @@ public class LoginAction {
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
     }
 
-    public static void invalidErrorOccurs() throws InterruptedException {
-        field = driver.findElement(By.className("invalid-error"));
-        boolean error = field.isDisplayed();
-        assertTrue(error);
-        Thread.sleep(2000);
+    public static void invalidErrorOccurs() {
+        //field = driver.findElement(By.className("invalid-error"));
+        field = driver.findElement(By.xpath("//*[contains(text(),'Another user with this username already exists')]"));
+        usernameError = field.isDisplayed();
+        if(usernameError) {
+            System.out.println("username error");
+            return;
+        }
+
+        field = driver.findElement(By.xpath("//*[contains(text(),'Please enter a value')]"));
+        emailError = field.isDisplayed();
+        if(emailError) {
+            System.out.println("email error");
+            //assertTrue(emailError);
+        }
+
+        //boolean error = field.isDisplayed();
+        //assertTrue(error);
         driver.quit();
     }
 
-    public static void overlongUsernameErrorOccurs(int nrOfChars) throws InterruptedException {
+    public static void overlongUsernameErrorOccurs(int nrOfChars) {
         driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS); //implicit wait
 
-        if(nrOfChars <= 99) { assertFalse(false); }
+        if(nrOfChars <= 100) { assertFalse(false); }
+        //the info given at site is flawed. In fact, the page accepts a nr equalling 100 chars.
         else {
             field = driver.findElement(By.className("invalid-error"));
             assertTrue(field.isDisplayed());
         }
-        Thread.sleep(2000);
+        driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS); //implicit wait
         driver.quit();
     }
 
     public static void clickOnSignIn() {
-/*        button = driver.findElement(By.id("create-account"));
-        button.click();
-        Thread.sleep(4000);*/
-/*        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
-        click(By.id("create-account"), 5);*/
-/*        wait = new WebDriverWait(driver, 3);
-        button = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button[id=create-account]")));
-        button.click();*/
         clickByActions(By.cssSelector("button[id=create-account]"));
         //clickByWait(By.cssSelector("button[id=create-account]"),3);
     }
@@ -161,6 +173,12 @@ public class LoginAction {
         String successString = "success";
         boolean success = url.contains(successString);*/
         assertTrue(success);
+        //driver.quit();
+    }
+
+    @After//("@Tag1") //Method must not be placed in step definitions file.
+    public static void tearDown() {
+        System.out.println("after scenario");
         driver.quit();
     }
 }

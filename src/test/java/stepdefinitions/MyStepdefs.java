@@ -2,7 +2,9 @@ package stepdefinitions;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import io.cucumber.java.en.*;
+import org.junit.jupiter.api.AfterAll;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -28,33 +30,12 @@ public class MyStepdefs {
     @Given("I am up to register at website, using {string}")
     public void i_am_up_to_register_at_website(String browser) throws InterruptedException {
         LoginAction.enterSite(browser);
+        LoginAction.acceptCookies();
         System.out.println("entering site");
-    }
-
-    @Given("I am up to register at website")
-    public void iAmUpToRegisterAtWebsite() throws InterruptedException {
-        LoginAction.enterSite("Chrome");
-        System.out.println("entering site");
-    }
-
-    @When("I submit email address")
-    public void ISubmitEmailAddress(io.cucumber.datatable.DataTable dataTable) {
-
-        List<String> data = dataTable.asList(String.class);
-        for(String item: data) {
-            System.out.println(item);
-        }
-    }
-
-    @And("I submit <username{string}>")
-    public void iSubmitAUsername(String username) {
-
-        System.out.println(username);
-        //throw new io.cucumber.java.PendingException();
     }
 
     @And("I click on sign-in")
-    public void iClickOnSignIn() throws InterruptedException {
+    public void iClickOnSignIn() {
         LoginAction.clickOnSignIn();
         System.out.println("clicking on sign in");
         //throw new io.cucumber.java.PendingException();
@@ -82,19 +63,19 @@ public class MyStepdefs {
     }
 
     @Then("There is an error saying that email is missing")
-    public void thereIsAnErrorSayingThatEmailIsMissing() throws InterruptedException {
+    public void thereIsAnErrorSayingThatEmailIsMissing() {
         LoginAction.invalidErrorOccurs();
         System.out.println("email error outprint");
     }
 
     @Then("There is an error saying username is taken")
-    public void thereIsAnErrorSayingUsernameIsTaken() throws InterruptedException {
+    public void thereIsAnErrorSayingUsernameIsTaken() {
         LoginAction.invalidErrorOccurs();
         System.out.println("username duplicate error outprint");
     }
 
     @Then("There is an error message saying that {int} characters are at least one too many")
-    public void overlongError(int nrOfChars) throws InterruptedException {
+    public void overlongError(int nrOfChars) {
         LoginAction.overlongUsernameErrorOccurs(nrOfChars);
         System.out.println("overlong username error outprint");
     }
@@ -106,16 +87,7 @@ public class MyStepdefs {
     }
 
     @But("I forget to submit an email")
-    public void iForgetToSubmitAnEmail() {
-
-        System.out.println("forgot!");
-    }
-
-    @And("I submit <password{string}>")
-    public void iSubmitAPasswordAsPassword(String string) {
-
-        System.out.println(string);
-    }
+    public void iForgetToSubmitAnEmail() { System.out.println("forgot!"); }
 
     @When("I submit an email of {int} characters, using {string}")
     public void iSubmitAnEmailOfIntCharactersUsing(int nrOfChars, String premise) throws InterruptedException {
@@ -140,13 +112,31 @@ public class MyStepdefs {
     }
 
     @Then("If the nr {int} of characters is larger than 99, there is an error message")
-    public void ifTheNrOfCharactersAreOrLargerThereIsAnErrorMessage(int nrOfChars) throws InterruptedException {
+    public void ifTheNrOfCharactersAreOrLargerThereIsAnErrorMessage(int nrOfChars) {
         LoginAction.overlongUsernameErrorOccurs(nrOfChars);
         System.out.println("overlong username error outprint");
     }
 
-/*    @After
-    public void quitDriver(WebDriver driver) {
+/*    @After//("@Tag1")
+    public void tearDown(Scenario s, WebDriver driver) {
+        System.out.println("after " + s.getName());
         driver.quit();
+    }*/
+
+    /*
+    @When("I submit email address")
+    public void ISubmitEmailAddress(io.cucumber.datatable.DataTable dataTable) {
+
+        List<String> data = dataTable.asList(String.class);
+        for(String item: data) {
+            System.out.println(item);
+        }
+    }
+
+    @And("I submit <username{string}>")
+    public void iSubmitAUsername(String username) {
+
+        System.out.println(username);
+        //throw new io.cucumber.java.PendingException();
     }*/
 }
