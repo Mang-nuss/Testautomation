@@ -1,19 +1,11 @@
 package stepdefinitions;
 
-import io.cucumber.java.After;
-import io.cucumber.java.Before;
-import io.cucumber.java.Scenario;
+import Login.Login;
 import io.cucumber.java.en.*;
-import org.junit.jupiter.api.AfterAll;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.By;
 import selenium.LoginAction;
 
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import static org.junit.Assert.assertTrue;
 
 public class MyStepdefs {
 
@@ -22,13 +14,8 @@ public class MyStepdefs {
     * all included in s
     * */
 
-/*    @Before
-    public void beforeAll() {
-        System.out.println("starting off");
-    }*/
-
     @Given("I am up to register at website, using {string}")
-    public void i_am_up_to_register_at_website(String browser) throws InterruptedException {
+    public void i_am_up_to_register_at_website(String browser) {
         LoginAction.enterSite(browser);
         LoginAction.acceptCookies();
         System.out.println("entering site");
@@ -36,52 +23,56 @@ public class MyStepdefs {
 
     @And("I click on sign-in")
     public void iClickOnSignIn() {
-        LoginAction.clickOnSignIn();
+        LoginAction.clickByActions(By.cssSelector("button[id=create-account]"));
         System.out.println("clicking on sign in");
-        //throw new io.cucumber.java.PendingException();
     }
 
     @Then("The registration is completed")
     public void theRegistrationIsCompleted() {
-
         System.out.println("complete");
-        LoginAction.registrationCompleted();
-        //throw new io.cucumber.java.PendingException();
+        LoginAction.registrationSucceeds();
     }
 
     @When("I submit valid {string} as username and {string} as password")
-    public void iSubmitValidUsernameAndPassword(String username, String pwd) throws InterruptedException {
+    public void iSubmitValidUsernameAndPassword(String username, String pwd) {
         LoginAction.fillIn("username",username);
-        Thread.sleep(2000);
         LoginAction.fillIn("password",pwd);
     }
 
-    @But("I submit a username too extensive, containing {int} characters")
-    public void iSubmitAUsernameTooExtensive(int nrOfChars) throws InterruptedException {
-        String usr = LoginAction.overlongUsername(nrOfChars);
+    @When("I submit valid {string} as email and {string} as password")
+    public void iSubmitValidEmailAndPassword(String email, String pwd) {
+        LoginAction.fillIn("email",email);
+        LoginAction.fillIn("password",pwd);
+    }
+
+    @But("I submit a username containing {int} characters")
+    public void iSubmitAUsernameTooExtensive(int nrOfChars) {
+        String usr = Login.generateUniqueUsername(nrOfChars,"none");
         LoginAction.fillIn("username",usr);
     }
 
     @Then("There is an error saying that email is missing")
     public void thereIsAnErrorSayingThatEmailIsMissing() {
-        LoginAction.invalidErrorOccurs();
+        assertTrue(LoginAction.emailErrorOccurs());
         System.out.println("email error outprint");
     }
 
     @Then("There is an error saying username is taken")
     public void thereIsAnErrorSayingUsernameIsTaken() {
-        LoginAction.invalidErrorOccurs();
-        System.out.println("username duplicate error outprint");
+        //LoginAction.acceptCookies();
+        assertTrue(LoginAction.existingUsernameErrorOccurs());
+        System.out.println("username duplicate check");
     }
 
     @Then("There is an error message saying that {int} characters are at least one too many")
     public void overlongError(int nrOfChars) {
+        //LoginAction.acceptCookies();
         LoginAction.overlongUsernameErrorOccurs(nrOfChars);
-        System.out.println("overlong username error outprint");
+        System.out.println("overlong username check");
     }
 
     @But("I submit a {string} that is taken since before")
-    public void iSubmitAUsernameThatIsTakenSinceBefore(String username) throws InterruptedException {
+    public void iSubmitAUsernameThatIsTakenSinceBefore(String username) {
         LoginAction.fillIn("username",username);
         System.out.println("username taken");
     }
@@ -90,53 +81,22 @@ public class MyStepdefs {
     public void iForgetToSubmitAnEmail() { System.out.println("forgot!"); }
 
     @When("I submit an email of {int} characters, using {string}")
-    public void iSubmitAnEmailOfIntCharactersUsing(int nrOfChars, String premise) throws InterruptedException {
+    public void iSubmitAnEmailOfIntCharactersUsing(int nrOfChars, String premise) {
         LoginAction.conditionedFillIn("email",nrOfChars,premise);
     }
 
     @And("I submit a username of {int} characters, using {string}")
-    public void iSubmitAUsernameOfIntCharactersUsing(int nrOfChars, String premise) throws InterruptedException {
+    public void iSubmitAUsernameOfIntCharactersUsing(int nrOfChars, String premise) {
         LoginAction.conditionedFillIn("username",nrOfChars,premise);
     }
 
     @And("I submit a password of {int} characters, using {string}")
-    public void iSubmitAPasswordOfIntCharactersUsing(int nrOfChars, String premise) throws InterruptedException {
+    public void iSubmitAPasswordOfIntCharactersUsing(int nrOfChars, String premise) {
         LoginAction.conditionedFillIn("password",nrOfChars,premise);
-    }
-
-    @When("I submit valid {string} as email and {string} as password")
-    public void iSubmitValidEmailAndPassword(String email, String pwd) throws InterruptedException {
-        LoginAction.fillIn("email",email);
-        Thread.sleep(2000);
-        LoginAction.fillIn("password",pwd);
     }
 
     @Then("If the nr {int} of characters is larger than 99, there is an error message")
     public void ifTheNrOfCharactersAreOrLargerThereIsAnErrorMessage(int nrOfChars) {
         LoginAction.overlongUsernameErrorOccurs(nrOfChars);
-        System.out.println("overlong username error outprint");
     }
-
-/*    @After//("@Tag1")
-    public void tearDown(Scenario s, WebDriver driver) {
-        System.out.println("after " + s.getName());
-        driver.quit();
-    }*/
-
-    /*
-    @When("I submit email address")
-    public void ISubmitEmailAddress(io.cucumber.datatable.DataTable dataTable) {
-
-        List<String> data = dataTable.asList(String.class);
-        for(String item: data) {
-            System.out.println(item);
-        }
-    }
-
-    @And("I submit <username{string}>")
-    public void iSubmitAUsername(String username) {
-
-        System.out.println(username);
-        //throw new io.cucumber.java.PendingException();
-    }*/
 }

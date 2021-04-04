@@ -17,7 +17,7 @@ public class Login {
 
     private static String usernameChars = lowercases + uppercases + numbers;
     private static String emailChars = usernameChars + specials;
-    private static String Chars = usernameChars + specials + "/@'^¨%()€"; //these chars seem to be invalid in emails
+    private static String Chars = usernameChars + specials + "/@'^¨%()€"; //these last chars seem to be invalid in emails
 
     public static WebDriver initiateBrowser(String browser) {
 
@@ -108,17 +108,17 @@ public class Login {
 
         output = "";
 
-        output+=randomise(emailChars,nrOfChars);
+        output += randomise(emailChars,nrOfChars);
 
         switch (premise) {
             case "none": //using standard suffix, gmail.com
                 output = output + "@gmail.com";
                 break;
-            case "twisted email suffix":
-                suffix = randomise(emailChars,nrOfChars);
+            case "twisted email suffix": //has to be letters or nrs
+                suffix = randomise(usernameChars,nrOfChars/3);
                 output = output + "@" + suffix + "mail.com";
                 break;
-            case "no email suffix": //should fail
+            case "no email suffix":
                 break;
         }
 

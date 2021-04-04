@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 //@CucumberOptions() //-- works without specs
 @CucumberOptions(
         features= "src/test/resources/features",
-        glue= "stepdefinitions",
+        glue= {"stepdefinitions", "selenium"},
         //tags= {"@Tag2, not @Tag1"},
         tags= "@Tag1",
         //plugin= {"pretty"},
