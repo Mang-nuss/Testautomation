@@ -29,17 +29,17 @@ public class LoginAction {
         driver.get("https://login.mailchimp.com/signup/");
         //Thread.sleep(3000); //not preferable
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
+        //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
     }
 
     public static void acceptCookies() {
 
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
+        //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
         //button = driver.findElement(By.cssSelector("button#onetrust-accept-btn-handler"));
         //button.click();
-        //clickByWait(By.cssSelector("button#onetrust-accept-btn-handler"),3);
-        clickByActions(By.cssSelector("button#onetrust-accept-btn-handler"));
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
+        clickByWait(By.cssSelector("button#onetrust-accept-btn-handler"),10);
+        //clickByActions(By.cssSelector("button#onetrust-accept-btn-handler"));
+        //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
     }
 
     public static void clickByWait(By by, int seconds) { //includes waiting
@@ -51,32 +51,32 @@ public class LoginAction {
 
     public static void clickByActions(By by) {
 
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
+        //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
         element = driver.findElement(by);
         Actions actions = new Actions(driver);
         actions.moveToElement(element).click().perform();
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
+        //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
     }
 
     public static void fillIn(String attribute, String input) {
 
         //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
-        //wait = new WebDriverWait(driver, 2);
+        wait = new WebDriverWait(driver, 5);
         //System.out.println(input);
         switch (attribute) {
             case "email":
                 System.out.println("email");
                 //field = driver.findElement(By.cssSelector("input#email"));
-                field = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input#email")));
+                field = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input#email")));
                 break;
             case "username":
                 System.out.println("usr");
-                field = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[id^='new_user']")));
+                field = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input[id^='new_user']")));
                 break;
             case "password":
                 System.out.println("pwd");
                 //field = driver.findElement(By.cssSelector("input[id*='ew_passwor']"));
-                field = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input#new_password")));
+                field = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input#new_password")));
                 break;
         }
 
@@ -84,28 +84,28 @@ public class LoginAction {
         //click(By.cssSelector("input[name='marketing_newsletter']"), 5);
         field.click();
         field.sendKeys(input);
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
+        //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
     }
 
     public static void conditionedFillIn(String attribute, int nrOfChars, String premise) {
 
         //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
-        //wait = new WebDriverWait(driver, 2);
+        wait = new WebDriverWait(driver, 5);
         //System.out.println(input);
         switch (attribute) {
             case "email":
                 System.out.println("email");
-                field = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input[type=email]")));
+                field = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input[type=email]")));
                 inputData = Login.generateUniqueEmailAddress(nrOfChars,premise);
                 break;
             case "username":
                 System.out.println("usr");
-                field = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='new_username']")));
+                field = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='new_username']")));
                 inputData = Login.generateUniqueUsername(nrOfChars,premise);
                 break;
             case "password":
                 System.out.println("pwd");
-                field = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("input#new_password")));
+                field = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input#new_password")));
                 inputData = Login.generateUniquePassword(nrOfChars,premise);
                 break;
         }
@@ -134,7 +134,7 @@ public class LoginAction {
     }
 
     public static void overlongUsernameErrorOccurs(int nrOfChars) {
-        driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS); //implicit wait
+        //driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS); //implicit wait
 
         if(nrOfChars <= 100) { //registrationSucceeds();
             assertTrue(driver.findElement(By.xpath("//*[contains(text(),'Check your email')]")).isDisplayed());
@@ -142,13 +142,18 @@ public class LoginAction {
         //the info given at site is flawed. In fact, the page accepts a nr equalling 100 chars.
         else { assertTrue(driver.findElement(By.className("invalid-error")).isDisplayed()); }
 
-        driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS); //implicit wait
+        //driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS); //implicit wait
     }
 
     public static void registrationSucceeds() {
         System.out.println("registration succeeds method");
-        field = (new WebDriverWait(driver,10)).until(ExpectedConditions.
+        wait = new WebDriverWait(driver,10);
+        field = wait.until(ExpectedConditions.
                 visibilityOfElementLocated(By.xpath("//*[contains(text(),'Check your email')]")));
+/*        field = (new WebDriverWait(driver,10)).
+                until(ExpectedConditions.visibilityOfElementLocated(By.className("!margin-bottom--lv3 no-transform center-on-medium")));*/
+                //#signup-content > div > div > div > h1
+        //xpath("//*[contains(text(),'Check your email')]")
         //field = driver.findElement(By.className("!margin-bottom--lv3 no-transform center-on-medium"));
         //*[@id="signup-content"]/div/div/div/h1
 
