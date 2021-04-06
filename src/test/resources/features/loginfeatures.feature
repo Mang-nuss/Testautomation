@@ -2,7 +2,7 @@ Feature: Login issues
 
     # n single test run using randomised inputs,
     # with various restrictions. All cases should pass.
-  @Tag1
+  #@Tag1
   Scenario Outline: Registration works
     Given I am up to register at website, using "<browser>"
     When I submit an email of <int> characters, using "<email-premise>"
@@ -17,7 +17,7 @@ Feature: Login issues
       #| Safari | 25 | none | upper+int  | random choice |
 
     # The nrs of characters are set to 99, 100, and 101, to check boundary values
-  @Tag2:
+  #@Tag2:
   Scenario Outline: Username contains too many characters
     Given I am up to register at website, using "<browser>"
     When I submit valid "<email>" as email and "<password>" as password
@@ -27,14 +27,14 @@ Feature: Login issues
     Then If the nr <int> of characters is larger than 99, there is an error message
     Examples:
       | browser | email | password | int |
-      #| FF | magjo063@student.liu.se | pynfet-1repXi-zadnyv | 99 |
+      | FF | magjo063@student.liu.se | pynfet-1repXi-zadnyv | 101 |
       #| Chrome | magjo063@student.liu.se | pynfet-1repXi-zadnyv | 101 |
       | Chrome | magjo063@student.liu.se | pynfet-1repXi-zadnyv | 100 |
       #| Safari | magjo063@student.liu.se | pynfet-1repXi-zadnyv | 100 |
       #| Chrome | magjo063@student.liu.se | pynfet-1repXi-zadnyv | 99 |
 
     # my personal login data are used
-  @Tag3:
+  #@Tag3:
   Scenario Outline: Username is taken
     Given I am up to register at website, using "FF"
     When I submit valid "<email>" as email and "<password>" as password
@@ -45,7 +45,7 @@ Feature: Login issues
       | email | password | username |
       | johansson.magnus.86\"@gmail.com | pynfet-1repXi-zadnyv | johanssonmagnus86 |
 
-  @Tag4:
+  #@Tag4:
   Scenario Outline: Email is missing
     Given I am up to register at website, using "FF"
     When I submit valid "<username>" as username and "<password>" as password

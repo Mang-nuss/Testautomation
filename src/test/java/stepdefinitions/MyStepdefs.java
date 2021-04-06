@@ -95,7 +95,8 @@ public class MyStepdefs {
         LoginAction.conditionedFillIn("password",nrOfChars,premise);
     }
 
-    @Then("If the nr {int} of characters is larger than 99, there is an error message")
+    @Then("If the nr {int} of characters is larger than 100, there is an error message")
+    //As stated in the LoginAction file, the site in fact accepts a value of <=100
     public void ifTheNrOfCharactersAreOrLargerThereIsAnErrorMessage(int nrOfChars) {
         LoginAction.overlongUsernameErrorOccurs(nrOfChars);
     }

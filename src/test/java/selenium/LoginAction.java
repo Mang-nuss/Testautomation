@@ -27,19 +27,13 @@ public class LoginAction {
 
         driver = Login.initiateBrowser(browser);
         driver.get("https://login.mailchimp.com/signup/");
-        //Thread.sleep(3000); //not preferable
         driver.manage().window().maximize();
-        //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
     }
 
     public static void acceptCookies() {
 
-        //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
-        //button = driver.findElement(By.cssSelector("button#onetrust-accept-btn-handler"));
-        //button.click();
-        clickByWait(By.cssSelector("button#onetrust-accept-btn-handler"),10);
+        clickByWait(By.cssSelector("button#onetrust-accept-btn-handler"),15);
         //clickByActions(By.cssSelector("button#onetrust-accept-btn-handler"));
-        //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
     }
 
     public static void clickByWait(By by, int seconds) { //includes waiting
@@ -51,17 +45,15 @@ public class LoginAction {
 
     public static void clickByActions(By by) {
 
-        //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
         element = driver.findElement(by);
         Actions actions = new Actions(driver);
         actions.moveToElement(element).click().perform();
-        //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
     }
 
     public static void fillIn(String attribute, String input) {
 
         //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
-        wait = new WebDriverWait(driver, 5);
+        wait = new WebDriverWait(driver, 15);
         //System.out.println(input);
         switch (attribute) {
             case "email":
@@ -80,18 +72,14 @@ public class LoginAction {
                 break;
         }
 
-        button = driver.findElement(By.cssSelector("input[name='marketing_newsletter']"));
-        //click(By.cssSelector("input[name='marketing_newsletter']"), 5);
+        //button = driver.findElement(By.cssSelector("input[name='marketing_newsletter']"));
         field.click();
         field.sendKeys(input);
-        //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
     }
 
     public static void conditionedFillIn(String attribute, int nrOfChars, String premise) {
 
-        //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
-        wait = new WebDriverWait(driver, 5);
-        //System.out.println(input);
+        wait = new WebDriverWait(driver, 15);
         switch (attribute) {
             case "email":
                 System.out.println("email");
@@ -112,7 +100,6 @@ public class LoginAction {
 
         field.click();
         field.sendKeys(inputData);
-        driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
     }
 
     public static boolean existingUsernameErrorOccurs() {
@@ -135,19 +122,20 @@ public class LoginAction {
 
     public static void overlongUsernameErrorOccurs(int nrOfChars) {
         //driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS); //implicit wait
+        //wait = new WebDriverWait(driver, 5);
 
         if(nrOfChars <= 100) { //registrationSucceeds();
             assertTrue(driver.findElement(By.xpath("//*[contains(text(),'Check your email')]")).isDisplayed());
         }
         //the info given at site is flawed. In fact, the page accepts a nr equalling 100 chars.
-        else { assertTrue(driver.findElement(By.className("invalid-error")).isDisplayed()); }
+        else { assertTrue(driver.findElement(By.cssSelector("label.invalid")).isDisplayed()); }
 
         //driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS); //implicit wait
     }
 
     public static void registrationSucceeds() {
         System.out.println("registration succeeds method");
-        wait = new WebDriverWait(driver,10);
+        wait = new WebDriverWait(driver,15);
         field = wait.until(ExpectedConditions.
                 visibilityOfElementLocated(By.xpath("//*[contains(text(),'Check your email')]")));
 /*        field = (new WebDriverWait(driver,10)).
