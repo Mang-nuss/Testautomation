@@ -24,7 +24,7 @@ Feature: Login issues
     But I submit a username containing <int> characters
     And I click on sign-in
     #Then There is an error message saying that <int> characters are at least one too many
-    Then If the nr <int> of characters is larger than 99, there is an error message
+    Then If the nr <int> of characters is larger than 100, there is an error message
     Examples:
       | browser | email | password | int |
       | FF | magjo063@student.liu.se | pynfet-1repXi-zadnyv | 101 |
