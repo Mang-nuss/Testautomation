@@ -77,9 +77,9 @@ public class Login {
                 break;
 
             case "lower+upper+int":
-                output = randomise(lowercases,nrOfChars/2);
-                output = randomise(uppercases,nrOfChars/2);
-                output+=randomise(numbers,nrOfChars/2);
+                output = randomise(lowercases,nrOfChars/3);
+                output+= randomise(uppercases,nrOfChars/3);
+                output+=randomise(numbers,nrOfChars/3);
                 break;
         }
 
@@ -111,7 +111,7 @@ public class Login {
         output += randomise(emailChars,nrOfChars);
 
         switch (premise) {
-            case "none": //using standard suffix, gmail.com
+            case "a randomised address": //using standard suffix, gmail.com
                 output = output + "@gmail.com";
                 break;
             case "twisted email suffix": //has to be letters or nrs

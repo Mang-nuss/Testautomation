@@ -20,6 +20,7 @@ public class LoginAction {
     public static WebElement button;
     public static String username;
     public static String inputData;
+    public static String output;
     public static boolean emailError;
     public static boolean usernameError;
 
@@ -51,7 +52,17 @@ public class LoginAction {
         Actions actions = new Actions(driver);
         actions.moveToElement(element).click().perform();
     }
+    public static String generateUsernameFrom(String usr) {
 
+    }
+
+    public static String generatePasswordFrom(String pwd) {
+
+    }
+
+    public static String generateEmailFrom(String email) {
+
+    }
     public static void fillIn(String attribute, String input) {
 
         //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
