@@ -24,6 +24,29 @@ public class LoginAction {
     public static boolean emailError;
     public static boolean usernameError;
 
+    private static String suffix;
+    private static String lowercases = "abcdefghijklmnopqrstuvwxyz";
+    private static String uppercases = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static String numbers = "0123456789";
+    private static String specials = "!#&|=?+-_*";
+
+    private static String usernameChars = lowercases + uppercases + numbers;
+    private static String emailChars = usernameChars + specials;
+    private static String Chars = usernameChars + specials + "/@'^¨%()€"; //these last chars seem to be invalid in emails
+
+
+    public static String randomise(String set, int nrOfChars) {
+
+        output = "";
+
+        for(int n=0; n<nrOfChars; n++) {
+            double nr = ( Math.random() * (set.length()-1) ) + 1;
+            output+=set.charAt((int)nr);
+        }
+
+        return output;
+    }
+
     public static void enterSite(String browser) {
 
         driver = Login.initiateBrowser(browser);
@@ -52,17 +75,36 @@ public class LoginAction {
         Actions actions = new Actions(driver);
         actions.moveToElement(element).click().perform();
     }
-    public static String generateUsernameFrom(String usr) {
+
+    public static String generateStringFrom(String str) {
+
+        output = "";
+
+        switch (str) {
+            case "a randomised password":
+                output += randomise(Chars,20);
+                break;
+            case "a randomised address":
+                output += randomise(emailChars,20) + "@gmail.com";
+                break;
+            case "a randomised username of uppercases, lowercases, and ints":
+                output += randomise(usernameChars,20);
+                break;
+            case "an overlong username":
+                output += randomise(usernameChars,101);
+            case "a username already in use":
+                output = "johanssonmagnus86";
+            case "nothing":
+                break;
+            default:
+                output = str;
+                break;
+        }
+
+        return output;
 
     }
 
-    public static String generatePasswordFrom(String pwd) {
-
-    }
-
-    public static String generateEmailFrom(String email) {
-
-    }
     public static void fillIn(String attribute, String input) {
 
         //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait

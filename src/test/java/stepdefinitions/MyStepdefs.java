@@ -17,7 +17,7 @@ public class MyStepdefs {
     public static WebDriverWait wait;
     public static WebElement element;
     public static WebElement field;
-    public static WebElement button;
+    //public static WebElement button;
     public static String username;
     public static String inputData;
     public static boolean emailError;
@@ -29,7 +29,7 @@ public class MyStepdefs {
     * */
     @Given("I am up to register at website, using {string}")
     public void iAmUpToRegisterAtWebsiteUsing(String browser) {
-        Login.initiateBrowser(browser);
+        LoginAction.enterSite(browser);
         LoginAction.acceptCookies();
     }
 
@@ -37,7 +37,7 @@ public class MyStepdefs {
     public void iSubmitAsEmail(String email) {
         LoginAction.explicitWait(15);
         field = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input#email")));
-        inputData = LoginAction.generateEmailFrom(email);
+        inputData = LoginAction.generateStringFrom(email);
         field.click();
         field.sendKeys(inputData);
     }
@@ -46,7 +46,7 @@ public class MyStepdefs {
     public void iSubmitAsUsername(String usr) {
         LoginAction.explicitWait(15);
         field = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input[id^='new_user']")));
-        inputData = LoginAction.generateUsernameFrom(usr);
+        inputData = LoginAction.generateStringFrom(usr);
         field.click();
         field.sendKeys(inputData);
     }
@@ -55,7 +55,7 @@ public class MyStepdefs {
     public void iSubmitAsPassword(String pwd) {
         LoginAction.explicitWait(15);
         field = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input#new_password")));
-        inputData = LoginAction.generatePasswordFrom(pwd);
+        inputData = LoginAction.generateStringFrom(pwd);
         field.click();
         field.sendKeys(inputData);
     }
@@ -65,9 +65,9 @@ public class MyStepdefs {
 
     @Then("If the requirements are met, the registration is completed")
     public void ifTheRequirementsAreMetTheRegistrationIsCompleted() {
-        if(LoginAction.noEmailAddress()) { assertTrue(emailError); }
-        else if(LoginAction.usernameIsTaken()) { assertTrue(takenUsernameError); }
-        else if(LoginAction.overlongUsername()) { assertTrue(overlongUsernameError); }
+        if(LoginAction.noEmailAddress()) { assertTrue(LoginAction.emailErrorOccurs()); }
+        else if(LoginAction.usernameIsTaken()) { assertTrue(LoginAction.existingUsernameErrorOccurs()); }
+        else if(LoginAction.overlongUsername()) { assertTrue(LoginAction.overlongUsernameErrorOccurs()); }
         else { LoginAction.registrationSucceeds(); }
     }
 }

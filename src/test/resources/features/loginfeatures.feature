@@ -9,7 +9,7 @@ Feature: Sign-in issues
     Then If the requirements are met, the registration is completed
     Examples:
       | browser | email | username | password |
-      | FF | a randomised address | a randomised password of uppercases, lowercases, and ints | a randomised password |
-      | Chrome | random email        | an overlong username | pynfet-1repXi-zadnyv |
-      | Safari | random email        | a username already in use | pynfet-1repXi-zadnyv |
-      | Chrome | nothing             | magnusjohansson86         | pynfet-1repXi-zadnyv |
+      | FF | a randomised address | a randomised username of uppercases, lowercases, and ints | a randomised password |
+      | Chrome | a randomised address | an overlong username | pynfet-1repXi-zadnyv |
+      | Safari | a randomised address | a username already in use | pynfet-1repXi-zadnyv |
+      | Chrome | nothing | magnusjohansson86 | pynfet-1repXi-zadnyv |
