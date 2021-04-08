@@ -1,6 +1,6 @@
 package stepdefinitions;
 
-import Login.Login;
+import Login.*;
 import io.cucumber.java.en.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -15,15 +15,10 @@ public class MyStepdefs {
 
     public static WebDriver driver;
     public static WebDriverWait wait;
-    public static WebElement element;
     public static WebElement field;
-    //public static WebElement button;
-    public static String username;
     public static String emailInputData;
     public static String passwordInputData;
     public static String usernameInputData;
-    public static boolean emailError;
-    public static boolean usernameError;
 
     /*
     * Learned: all steps must be compilable before running a single scenario s, even though they are not
@@ -31,48 +26,55 @@ public class MyStepdefs {
     * */
     @Given("I am up to register at website, using {string}")
     public void iAmUpToRegisterAtWebsiteUsing(String browser) {
-        LoginAction.enterSite(browser);
-        LoginAction.acceptCookies();
+        driver = Login.initiateBrowser(browser);
+        driver.get("https://login.mailchimp.com/signup/");
+        driver.manage().window().maximize();
+
+        LoginAction.acceptCookies(driver);
         System.out.println("step 1 done");
+        System.out.println(driver.getCurrentUrl());
     }
 
     @And("I submit {string} as email")
     public void iSubmitAsEmail(String email) {
-        LoginAction.explicitWait(15);
-        field = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input#email")));
-        System.out.println("in generate string");
 
-        emailInputData = LoginAction.generateStringFrom(email);
+        //System.out.println(driver.getCurrentUrl());
+        wait = new WebDriverWait(driver, 15);
+/*        field = wait.until(ExpectedConditions.
+                visibilityOfElementLocated(By.xpath("//*[contains(text(),'Welcome to Mailchimp')]")));*/
+
+        field = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input#email")));
         field.click();
-        field.sendKeys(emailInputData);
+        field.sendKeys(LoginAction.generateStringFrom(email));
     }
 
     @And("I submit {string} as username")
     public void iSubmitAsUsername(String usr) {
-        LoginAction.explicitWait(15);
+        wait = new WebDriverWait(driver, 15);
         field = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input[id^='new_user']")));
-        usernameInputData = LoginAction.generateStringFrom(usr);
         field.click();
-        field.sendKeys(usernameInputData);
+        field.sendKeys(LoginAction.generateStringFrom(usr));
     }
 
     @And("I submit {string} as password")
     public void iSubmitAsPassword(String pwd) {
-        LoginAction.explicitWait(15);
+        wait = new WebDriverWait(driver, 15);
         field = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input#new_password")));
-        passwordInputData = LoginAction.generateStringFrom(pwd);
         field.click();
-        field.sendKeys(passwordInputData);
+        field.sendKeys(LoginAction.generateStringFrom(pwd));
     }
 
     @When("I click on sign-in")
-    public void iClickOnSignIn() { LoginAction.clickByActions(By.cssSelector("button[id=create-account]")); }
+    public void iClickOnSignIn() { LoginAction.clickByActions(driver, By.cssSelector("button[id=create-account]")); }
 
     @Then("Input data should generate {string}")
     public void inputDataShouldGenerate(String message) {
-        if(message == "success") { LoginAction.registrationSucceeds(); }
-        else if(message == "overlong username error") { assertTrue(LoginAction.overlongUsernameErrorOccurs()); }
-        else if(message == "existing username error") { assertTrue(LoginAction.existingUsernameErrorOccurs()); }
-        else if(message == "missing email error") { assertTrue(LoginAction.emailErrorOccurs()); }
+        wait = new WebDriverWait(driver, 15);
+        if(message.equals("success")) { LoginAction.registrationSucceeds(wait); }
+        else if(message.equals("overlong username error")) { assertTrue(LoginAction.overlongUsernameErrorOccurs(wait)); }
+        else if(message.equals("existing username error")) { assertTrue(LoginAction.existingUsernameErrorOccurs(wait)); }
+        else if(message.equals("missing email error")) { assertTrue(LoginAction.emailErrorOccurs(wait)); }
+
+        LoginAction.quit(driver);
     }
 }

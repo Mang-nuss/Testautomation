@@ -7,7 +7,7 @@ import org.openqa.selenium.safari.SafariDriver;
 
 public class Login {
 
-    private static WebDriver driver;
+    public static WebDriver driver;
     private static String output;
     private static String suffix;
     private static String lowercases = "abcdefghijklmnopqrstuvwxyz";

@@ -1,6 +1,6 @@
 Feature: Sign-in issues
 
-  Scenario Outline:
+  Scenario Outline: Signing in
     Given I am up to register at website, using "<browser>"
     And I submit "<email>" as email
     And I submit "<username>" as username

@@ -16,14 +16,7 @@ public class LoginAction {
 
     public static WebDriver driver;
     public static WebDriverWait wait;
-    public static WebElement element;
-    public static WebElement field;
-    public static WebElement button;
-    public static String username;
-    public static String inputData;
     public static String output;
-    public static boolean emailError;
-    public static boolean usernameError;
 
     public static ArrayList<String> usernames = new ArrayList<>();
 
@@ -49,31 +42,23 @@ public class LoginAction {
         return output;
     }
 
-    public static void enterSite(String browser) {
+    public static void acceptCookies(WebDriver driver) {
 
-        driver = Login.initiateBrowser(browser);
-        driver.get("https://login.mailchimp.com/signup/");
-        driver.manage().window().maximize();
+        clickByWait(driver, By.cssSelector("button#onetrust-accept-btn-handler"),15);
     }
 
-    public static void acceptCookies() {
-
-        clickByWait(By.cssSelector("button#onetrust-accept-btn-handler"),15);
-        //clickByActions(By.cssSelector("button#onetrust-accept-btn-handler"));
-    }
-
-    public static void clickByWait(By by, int seconds) { //includes waiting
+    public static void clickByWait(WebDriver driver, By by, int seconds) { //includes waiting
 
         (new WebDriverWait(driver,seconds)).
-                until(ExpectedConditions.presenceOfElementLocated(by)); //explicit wait
+                until(ExpectedConditions.presenceOfElementLocated(by));
         driver.findElement(by).click(); //can also be used for sending keys.
     }
 
-    public static void explicitWait(int seconds) { wait = new WebDriverWait(driver, seconds); }
+    public static void explicitWait(WebDriver driver, int seconds) { wait = new WebDriverWait(driver, seconds); }
 
-    public static void clickByActions(By by) {
+    public static void clickByActions(WebDriver driver, By by) {
 
-        element = driver.findElement(by);
+        WebElement element = driver.findElement(by);
         Actions actions = new Actions(driver);
         actions.moveToElement(element).click().perform();
     }
@@ -93,9 +78,12 @@ public class LoginAction {
                 output += randomise(usernameChars,20);
                 break;
             case "an overlong username":
+                System.out.println("in case: overlong");
                 output += randomise(usernameChars,101);
+                break;
             case "a username already in use":
                 output = "johanssonmagnus86";
+                break;
             case "nothing":
                 break;
             default:
@@ -121,9 +109,9 @@ public class LoginAction {
 
     }
 
-    public static boolean existingUsernameErrorOccurs() {
-        explicitWait(15);
-        field = wait.until(ExpectedConditions.
+    public static boolean existingUsernameErrorOccurs(WebDriverWait wait) {
+        //explicitWait(driver,15);
+        WebElement field = wait.until(ExpectedConditions.
                 visibilityOfElementLocated(By.cssSelector("input[class^='invalid']")));
 
         return field.isDisplayed();
@@ -134,9 +122,9 @@ public class LoginAction {
         else { return false; }
     }
 
-    public static boolean emailErrorOccurs() {
-        explicitWait(15);
-        field = wait.until(ExpectedConditions.
+    public static boolean emailErrorOccurs(WebDriverWait wait) {
+        //explicitWait(driver,15);
+        WebElement field = wait.until(ExpectedConditions.
                 visibilityOfElementLocated(By.cssSelector("label.invalid")));
 
         return field.isDisplayed();
@@ -148,23 +136,23 @@ public class LoginAction {
         else { return false; }
     }
 
-    public static boolean overlongUsernameErrorOccurs() {
-        explicitWait(15);
+    public static boolean overlongUsernameErrorOccurs(WebDriverWait wait) {
+        //explicitWait(driver,15);
 
-        field = wait.until(ExpectedConditions.
+        WebElement field = wait.until(ExpectedConditions.
                 visibilityOfElementLocated(By.cssSelector("label.invalid")));
 
         return field.isDisplayed();
     }
 
-    public static void registrationSucceeds() {
-        explicitWait(15);
-        field = wait.until(ExpectedConditions.
+    public static void registrationSucceeds(WebDriverWait wait) {
+        //explicitWait(driver,15);
+        WebElement field = wait.until(ExpectedConditions.
                 visibilityOfElementLocated(By.xpath("//*[contains(text(),'Check your email')]")));
         assertTrue(field.isDisplayed());
     }
 
-    public static void quit() { driver.quit(); }
+    public static void quit(WebDriver driver) { driver.quit(); }
 }
 
 //field = driver.findElement(By.cssSelector("input[class^='invalid']"));
