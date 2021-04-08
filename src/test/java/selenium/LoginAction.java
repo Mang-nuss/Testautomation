@@ -7,7 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import java.util.concurrent.TimeUnit;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -23,6 +24,8 @@ public class LoginAction {
     public static String output;
     public static boolean emailError;
     public static boolean usernameError;
+
+    public static ArrayList<String> usernames = new ArrayList<>();
 
     private static String suffix;
     private static String lowercases = "abcdefghijklmnopqrstuvwxyz";
@@ -105,6 +108,112 @@ public class LoginAction {
 
     }
 
+    public static boolean usernameIsTaken(String input) {
+
+        usernames.add("johanssonmagnus86"); //assume this is in the mailchimp database
+        boolean taken = false;
+
+        for (String name : usernames) {
+
+            if(name.equals(input)) { taken = true; }
+        }
+
+        return taken;
+
+    }
+
+    public static boolean existingUsernameErrorOccurs() {
+        explicitWait(15);
+        field = wait.until(ExpectedConditions.
+                visibilityOfElementLocated(By.cssSelector("input[class^='invalid']")));
+
+        return field.isDisplayed();
+    }
+
+    public static boolean noEmailAddress(String input) {
+        if(input.isEmpty()) { return true; }
+        else { return false; }
+    }
+
+    public static boolean emailErrorOccurs() {
+        explicitWait(15);
+        field = wait.until(ExpectedConditions.
+                visibilityOfElementLocated(By.cssSelector("label.invalid")));
+
+        return field.isDisplayed();
+    }
+
+    public static boolean overlongUsername(String input) {
+
+        if(input.length() > 100) { return true; }
+        else { return false; }
+    }
+
+    public static boolean overlongUsernameErrorOccurs() {
+        explicitWait(15);
+
+        field = wait.until(ExpectedConditions.
+                visibilityOfElementLocated(By.cssSelector("label.invalid")));
+
+        return field.isDisplayed());
+    }
+
+    public static void registrationSucceeds() {
+        explicitWait(15);
+        field = wait.until(ExpectedConditions.
+                visibilityOfElementLocated(By.xpath("//*[contains(text(),'Check your email')]")));
+        assertTrue(field.isDisplayed());
+    }
+
+    public static void quit() { driver.quit(); }
+}
+
+//field = driver.findElement(By.cssSelector("input[class^='invalid']"));
+//className("invalid-error")
+//field = driver.findElement(By.xpath("//*[contains(text(),'Another user with this username already exists')]"));
+/*        field = (new WebDriverWait(driver,10)).until(ExpectedConditions.
+                visibilityOfElementLocated(By.cssSelector("input[class^='invalid']")));*/
+
+//field = driver.findElement(By.cssSelector("label.invalid"));
+//field = driver.findElement(By.xpath("//*[contains(text(),'Please enter a value')]"));
+//field = driver.findElement(By.cssSelector("input[class='invalid av-email']"));
+/*        field = (new WebDriverWait(driver,10)).until(ExpectedConditions.
+                visibilityOfElementLocated(By.cssSelector("label.invalid")));*/
+
+/*        if(nrOfChars <= 100) {
+            field = wait.until(ExpectedConditions.
+                    visibilityOfElementLocated(By.xpath("//*[contains(text(),'Check your email')]")));
+        }
+*//*        the info given at site ("Enter a value less than 100 characters long")
+        is flawed. In fact, the page accepts a nr equalling 100 chars.*//*
+
+        else {
+            field = wait.until(ExpectedConditions.
+                    visibilityOfElementLocated(By.cssSelector("label.invalid")));
+        }*/
+
+/*        field = (new WebDriverWait(driver,10)).
+                until(ExpectedConditions.visibilityOfElementLocated(By.className("!margin-bottom--lv3 no-transform center-on-medium")));*/
+//#signup-content > div > div > div > h1
+//xpath("//*[contains(text(),'Check your email')]")
+//field = driver.findElement(By.className("!margin-bottom--lv3 no-transform center-on-medium"));
+//*[@id="signup-content"]/div/div/div/h1
+
+/*        field = (new WebDriverWait(driver,10)).until(ExpectedConditions.
+                visibilityOfElementLocated(By.cssSelector("span[]")));*/
+/*        field = (new WebDriverWait(driver,10)).until(ExpectedConditions.
+                visibilityOfElementLocated(By.xpath("//*[@id='signup-content']/div/div/div/h1")));*/
+
+//assertEquals(driver.getTitle(),"Success | Mailchimp");
+
+/*        driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS); //implicit wait
+        String url = driver.getCurrentUrl();
+        System.out.println(url);
+        String successString = "success";
+        boolean success = url.contains(successString);
+        assertTrue(success);*/
+
+/*
     public static void fillIn(String attribute, String input) {
 
         //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
@@ -156,77 +265,4 @@ public class LoginAction {
 
         field.click();
         field.sendKeys(inputData);
-    }
-
-    public static boolean existingUsernameErrorOccurs() {
-        explicitWait(15);
-        field = wait.until(ExpectedConditions.
-                visibilityOfElementLocated(By.cssSelector("input[class^='invalid']")));
-        //field = driver.findElement(By.cssSelector("input[class^='invalid']"));
-        //className("invalid-error")
-        //field = driver.findElement(By.xpath("//*[contains(text(),'Another user with this username already exists')]"));
-/*        field = (new WebDriverWait(driver,10)).until(ExpectedConditions.
-                visibilityOfElementLocated(By.cssSelector("input[class^='invalid']")));*/
-        return field.isDisplayed();
-    }
-
-    public static boolean emailErrorOccurs() {
-        explicitWait(15);
-        field = wait.until(ExpectedConditions.
-                visibilityOfElementLocated(By.cssSelector("label.invalid")));
-        //field = driver.findElement(By.cssSelector("label.invalid"));
-        //field = driver.findElement(By.xpath("//*[contains(text(),'Please enter a value')]"));
-        //field = driver.findElement(By.cssSelector("input[class='invalid av-email']"));
-/*        field = (new WebDriverWait(driver,10)).until(ExpectedConditions.
-                visibilityOfElementLocated(By.cssSelector("label.invalid")));*/
-        return field.isDisplayed();
-    }
-
-    public static void overlongUsernameErrorOccurs(int nrOfChars) {
-        //driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS); //implicit wait
-        explicitWait(15);
-
-        if(nrOfChars <= 100) {
-            field = wait.until(ExpectedConditions.
-                    visibilityOfElementLocated(By.xpath("//*[contains(text(),'Check your email')]")));
-        }
-/*        the info given at site ("Enter a value less than 100 characters long")
-        is flawed. In fact, the page accepts a nr equalling 100 chars.*/
-
-        else {
-            field = wait.until(ExpectedConditions.
-                    visibilityOfElementLocated(By.cssSelector("label.invalid")));
-        }
-
-        assertTrue(field.isDisplayed());
-    }
-
-    public static void registrationSucceeds() {
-        explicitWait(15);
-        field = wait.until(ExpectedConditions.
-                visibilityOfElementLocated(By.xpath("//*[contains(text(),'Check your email')]")));
-        assertTrue(field.isDisplayed());
-/*        field = (new WebDriverWait(driver,10)).
-                until(ExpectedConditions.visibilityOfElementLocated(By.className("!margin-bottom--lv3 no-transform center-on-medium")));*/
-                //#signup-content > div > div > div > h1
-        //xpath("//*[contains(text(),'Check your email')]")
-        //field = driver.findElement(By.className("!margin-bottom--lv3 no-transform center-on-medium"));
-        //*[@id="signup-content"]/div/div/div/h1
-
-/*        field = (new WebDriverWait(driver,10)).until(ExpectedConditions.
-                visibilityOfElementLocated(By.cssSelector("span[]")));*/
-/*        field = (new WebDriverWait(driver,10)).until(ExpectedConditions.
-                visibilityOfElementLocated(By.xpath("//*[@id='signup-content']/div/div/div/h1")));*/
-
-        //assertEquals(driver.getTitle(),"Success | Mailchimp");
-
-/*        driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS); //implicit wait
-        String url = driver.getCurrentUrl();
-        System.out.println(url);
-        String successString = "success";
-        boolean success = url.contains(successString);
-        assertTrue(success);*/
-    }
-
-    public static void quit() { driver.quit(); }
-}
+    }*/

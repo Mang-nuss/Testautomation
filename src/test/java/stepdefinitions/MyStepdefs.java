@@ -19,7 +19,9 @@ public class MyStepdefs {
     public static WebElement field;
     //public static WebElement button;
     public static String username;
-    public static String inputData;
+    public static String emailInputData;
+    public static String passwordInputData;
+    public static String usernameInputData;
     public static boolean emailError;
     public static boolean usernameError;
 
@@ -37,27 +39,27 @@ public class MyStepdefs {
     public void iSubmitAsEmail(String email) {
         LoginAction.explicitWait(15);
         field = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input#email")));
-        inputData = LoginAction.generateStringFrom(email);
+        emailInputData = LoginAction.generateStringFrom(email);
         field.click();
-        field.sendKeys(inputData);
+        field.sendKeys(emailInputData);
     }
 
     @And("I submit {string} as username")
     public void iSubmitAsUsername(String usr) {
         LoginAction.explicitWait(15);
         field = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input[id^='new_user']")));
-        inputData = LoginAction.generateStringFrom(usr);
+        usernameInputData = LoginAction.generateStringFrom(usr);
         field.click();
-        field.sendKeys(inputData);
+        field.sendKeys(usernameInputData);
     }
 
     @And("I submit {string} as password")
     public void iSubmitAsPassword(String pwd) {
         LoginAction.explicitWait(15);
         field = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input#new_password")));
-        inputData = LoginAction.generateStringFrom(pwd);
+        passwordInputData = LoginAction.generateStringFrom(pwd);
         field.click();
-        field.sendKeys(inputData);
+        field.sendKeys(passwordInputData);
     }
 
     @When("I click on sign-in")
@@ -65,9 +67,9 @@ public class MyStepdefs {
 
     @Then("If the requirements are met, the registration is completed")
     public void ifTheRequirementsAreMetTheRegistrationIsCompleted() {
-        if(LoginAction.noEmailAddress()) { assertTrue(LoginAction.emailErrorOccurs()); }
-        else if(LoginAction.usernameIsTaken()) { assertTrue(LoginAction.existingUsernameErrorOccurs()); }
-        else if(LoginAction.overlongUsername()) { assertTrue(LoginAction.overlongUsernameErrorOccurs()); }
+        if(LoginAction.noEmailAddress(emailInputData)) { assertTrue(LoginAction.emailErrorOccurs()); }
+        else if(LoginAction.usernameIsTaken(usernameInputData)) { assertTrue(LoginAction.existingUsernameErrorOccurs()); }
+        else if(LoginAction.overlongUsername(usernameInputData)) { assertTrue(LoginAction.overlongUsernameErrorOccurs()); }
         else { LoginAction.registrationSucceeds(); }
     }
 }
