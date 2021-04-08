@@ -27,15 +27,14 @@ public class LoginAction {
 
     public static ArrayList<String> usernames = new ArrayList<>();
 
-    private static String suffix;
-    private static String lowercases = "abcdefghijklmnopqrstuvwxyz";
-    private static String uppercases = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    private static String numbers = "0123456789";
-    private static String specials = "!#&|=?+-_*";
+    public static String lowercases = "abcdefghijklmnopqrstuvwxyz";
+    public static String uppercases = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    public static String numbers = "0123456789";
+    public static String specials = "!#&|=?+-_*";
 
-    private static String usernameChars = lowercases + uppercases + numbers;
-    private static String emailChars = usernameChars + specials;
-    private static String Chars = usernameChars + specials + "/@'^¨%()€"; //these last chars seem to be invalid in emails
+    public static String usernameChars = lowercases + uppercases + numbers;
+    public static String emailChars = usernameChars + specials;
+    public static String Chars = usernameChars + specials + "/@'^¨%()€"; //these last chars seem to be invalid in emails
 
 
     public static String randomise(String set, int nrOfChars) {
@@ -155,7 +154,7 @@ public class LoginAction {
         field = wait.until(ExpectedConditions.
                 visibilityOfElementLocated(By.cssSelector("label.invalid")));
 
-        return field.isDisplayed());
+        return field.isDisplayed();
     }
 
     public static void registrationSucceeds() {

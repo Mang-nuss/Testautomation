@@ -33,12 +33,15 @@ public class MyStepdefs {
     public void iAmUpToRegisterAtWebsiteUsing(String browser) {
         LoginAction.enterSite(browser);
         LoginAction.acceptCookies();
+        System.out.println("step 1 done");
     }
 
     @And("I submit {string} as email")
     public void iSubmitAsEmail(String email) {
         LoginAction.explicitWait(15);
         field = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input#email")));
+        System.out.println("in generate string");
+
         emailInputData = LoginAction.generateStringFrom(email);
         field.click();
         field.sendKeys(emailInputData);
@@ -65,11 +68,11 @@ public class MyStepdefs {
     @When("I click on sign-in")
     public void iClickOnSignIn() { LoginAction.clickByActions(By.cssSelector("button[id=create-account]")); }
 
-    @Then("If the requirements are met, the registration is completed")
-    public void ifTheRequirementsAreMetTheRegistrationIsCompleted() {
-        if(LoginAction.noEmailAddress(emailInputData)) { assertTrue(LoginAction.emailErrorOccurs()); }
-        else if(LoginAction.usernameIsTaken(usernameInputData)) { assertTrue(LoginAction.existingUsernameErrorOccurs()); }
-        else if(LoginAction.overlongUsername(usernameInputData)) { assertTrue(LoginAction.overlongUsernameErrorOccurs()); }
-        else { LoginAction.registrationSucceeds(); }
+    @Then("Input data should generate {string}")
+    public void inputDataShouldGenerate(String message) {
+        if(message == "success") { LoginAction.registrationSucceeds(); }
+        else if(message == "overlong username error") { assertTrue(LoginAction.overlongUsernameErrorOccurs()); }
+        else if(message == "existing username error") { assertTrue(LoginAction.existingUsernameErrorOccurs()); }
+        else if(message == "missing email error") { assertTrue(LoginAction.emailErrorOccurs()); }
     }
 }
