@@ -13,13 +13,13 @@ public class Hooks {
 
     @Before//("The scenario begins")
     public void setUp() {
-        System.out.println("starting off");
+        System.out.println("--------------- STARTING SCENARIO ---------------");
         //driver = Login.initiateBrowser(browser);
     }
 
     @After//("The browser is closed")
     public static void tearDown() { //Method must not be placed in step definitions file.
-        System.out.println("after scenario");
+        System.out.println("--------------- ENDING SCENARIO ---------------");
         //LoginAction.quit(driver);
     }
 }

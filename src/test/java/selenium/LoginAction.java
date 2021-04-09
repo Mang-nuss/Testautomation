@@ -38,9 +38,9 @@ public class LoginAction {
         return output;
     }
 
-    public static WebDriver initiateBrowser(String browser) {
+    public static WebDriver initiateBrowser(String browser) throws Exception {
 
-        WebDriver driver = null;
+        WebDriver driver;
 
         switch (browser) {
             case "Chrome":
@@ -54,14 +54,18 @@ public class LoginAction {
                 System.setProperty("webdriver.gecko.driver", "/Users/magnusjohansson/geckodriver");
                 driver = new FirefoxDriver();
                 break;
+            default:
+                throw new Exception("Invalid browser name");
         }
 
+        System.out.println("Driver was instantiated ->");
         return driver;
     }
 
     public static void acceptCookies(WebDriver driver) {
 
         clickByWait(driver, By.cssSelector("button#onetrust-accept-btn-handler"),15);
+        System.out.println("Cookies was accepted ->");
     }
 
     public static void clickByWait(WebDriver driver, By by, int seconds) { //includes waiting
@@ -93,7 +97,6 @@ public class LoginAction {
                 output += randomise(usernameChars,20);
                 break;
             case "an overlong username":
-                System.out.println("in case: overlong");
                 output += randomise(usernameChars,101);
                 break;
             case "a username already in use":
@@ -110,158 +113,45 @@ public class LoginAction {
 
     }
 
-    public static boolean existingUsernameErrorOccurs(WebDriverWait wait) {
-        WebElement field = wait.until(ExpectedConditions.
-                visibilityOfElementLocated(By.cssSelector("input[class^='invalid']")));
+    public static boolean existingUsernameErrorOccurs(WebDriverWait wait) throws ExistingUsernameException {
 
+        String selector = "input[class^='invalid']";
+        WebElement field = wait.until(ExpectedConditions.
+                visibilityOfElementLocated(By.cssSelector(selector)));
+
+        if(!field.isDisplayed()) { throw new ExistingUsernameException(selector); }
         return field.isDisplayed();
     }
 
-    public static boolean emailErrorOccurs(WebDriverWait wait) {
-        WebElement field = wait.until(ExpectedConditions.
-                visibilityOfElementLocated(By.cssSelector("label.invalid")));
+    public static boolean emailErrorOccurs(WebDriverWait wait) throws EmailException {
 
+        String selector = "label.invalid";
+        WebElement field = wait.until(ExpectedConditions.
+                visibilityOfElementLocated(By.cssSelector(selector)));
+
+        if(!field.isDisplayed()) { throw new EmailException(selector); }
         return field.isDisplayed();
     }
 
-    public static boolean overlongUsernameErrorOccurs(WebDriverWait wait) {
+    public static boolean overlongUsernameErrorOccurs(WebDriverWait wait) throws OverlongUsernameException {
 
+        String selector = "label.invalid";
         WebElement field = wait.until(ExpectedConditions.
-                visibilityOfElementLocated(By.cssSelector("label.invalid")));
+                visibilityOfElementLocated(By.cssSelector(selector)));
 
+        if(!field.isDisplayed()) { System.out.println("error!!!"); throw new OverlongUsernameException(selector); }
         return field.isDisplayed();
     }
 
-    public static void registrationSucceeds(WebDriverWait wait) {
+    public static void registrationSucceeds(WebDriverWait wait) throws Exception {
 
         WebElement field = wait.until(ExpectedConditions.
                 visibilityOfElementLocated(By.xpath("//*[contains(text(),'Check your email')]")));
+
+        if(!field.isDisplayed()) { throw new Exception("timeout!"); }
         assertTrue(field.isDisplayed());
     }
 
     public static void quit(WebDriver driver) { driver.quit(); }
+
 }
-/*
-    public static boolean noEmailAddress(String input) {
-        if(input.isEmpty()) { return true; }
-        else { return false; }
-    }
-    public static boolean overlongUsername(String input) {
-
-        if(input.length() > 100) { return true; }
-        else { return false; }
-    }
-
-    public static boolean usernameIsTaken(String input) {
-
-        usernames.add("johanssonmagnus86"); //assume this is in the mailchimp database
-        boolean taken = false;
-
-        for (String name : usernames) {
-
-            if(name.equals(input)) { taken = true; }
-        }
-
-        return taken;
-
-    }
-    public static void explicitWait(WebDriver driver, int seconds) { wait = new WebDriverWait(driver, seconds); }*/
-
-//field = driver.findElement(By.cssSelector("input[class^='invalid']"));
-//className("invalid-error")
-//field = driver.findElement(By.xpath("//*[contains(text(),'Another user with this username already exists')]"));
-/*        field = (new WebDriverWait(driver,10)).until(ExpectedConditions.
-                visibilityOfElementLocated(By.cssSelector("input[class^='invalid']")));*/
-
-//field = driver.findElement(By.cssSelector("label.invalid"));
-//field = driver.findElement(By.xpath("//*[contains(text(),'Please enter a value')]"));
-//field = driver.findElement(By.cssSelector("input[class='invalid av-email']"));
-/*        field = (new WebDriverWait(driver,10)).until(ExpectedConditions.
-                visibilityOfElementLocated(By.cssSelector("label.invalid")));*/
-
-/*        if(nrOfChars <= 100) {
-            field = wait.until(ExpectedConditions.
-                    visibilityOfElementLocated(By.xpath("//*[contains(text(),'Check your email')]")));
-        }
-*//*        the info given at site ("Enter a value less than 100 characters long")
-        is flawed. In fact, the page accepts a nr equalling 100 chars.*//*
-
-        else {
-            field = wait.until(ExpectedConditions.
-                    visibilityOfElementLocated(By.cssSelector("label.invalid")));
-        }*/
-
-/*        field = (new WebDriverWait(driver,10)).
-                until(ExpectedConditions.visibilityOfElementLocated(By.className("!margin-bottom--lv3 no-transform center-on-medium")));*/
-//#signup-content > div > div > div > h1
-//xpath("//*[contains(text(),'Check your email')]")
-//field = driver.findElement(By.className("!margin-bottom--lv3 no-transform center-on-medium"));
-//*[@id="signup-content"]/div/div/div/h1
-
-/*        field = (new WebDriverWait(driver,10)).until(ExpectedConditions.
-                visibilityOfElementLocated(By.cssSelector("span[]")));*/
-/*        field = (new WebDriverWait(driver,10)).until(ExpectedConditions.
-                visibilityOfElementLocated(By.xpath("//*[@id='signup-content']/div/div/div/h1")));*/
-
-//assertEquals(driver.getTitle(),"Success | Mailchimp");
-
-/*        driver.manage().timeouts().implicitlyWait(4, TimeUnit.SECONDS); //implicit wait
-        String url = driver.getCurrentUrl();
-        System.out.println(url);
-        String successString = "success";
-        boolean success = url.contains(successString);
-        assertTrue(success);*/
-
-/*
-    public static void fillIn(String attribute, String input) {
-
-        //driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS); //implicit wait
-        explicitWait(15);
-        //System.out.println(input);
-        switch (attribute) {
-            case "email":
-                System.out.println("email");
-                //field = driver.findElement(By.cssSelector("input#email"));
-                field = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input#email")));
-                break;
-            case "username":
-                System.out.println("usr");
-                field = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input[id^='new_user']")));
-                break;
-            case "password":
-                System.out.println("pwd");
-                //field = driver.findElement(By.cssSelector("input[id*='ew_passwor']"));
-                field = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input#new_password")));
-                break;
-        }
-
-        //button = driver.findElement(By.cssSelector("input[name='marketing_newsletter']"));
-        field.click();
-        field.sendKeys(input);
-    }
-
-    public static void conditionedFillIn(String attribute, int nrOfChars, String premise) {
-
-        explicitWait(15);
-
-        switch (attribute) {
-            case "email":
-                System.out.println("email");
-                field = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input[type=email]")));
-                inputData = Login.generateUniqueEmailAddress(nrOfChars,premise);
-                break;
-            case "username":
-                System.out.println("usr");
-                field = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id='new_username']")));
-                inputData = Login.generateUniqueUsername(nrOfChars,premise);
-                break;
-            case "password":
-                System.out.println("pwd");
-                field = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("input#new_password")));
-                inputData = Login.generateUniquePassword(nrOfChars,premise);
-                break;
-        }
-
-        field.click();
-        field.sendKeys(inputData);
-    }*/
