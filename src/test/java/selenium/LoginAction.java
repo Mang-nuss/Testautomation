@@ -10,8 +10,6 @@ import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static org.junit.Assert.*;
-
 public class LoginAction {
 
     public static String output;
@@ -88,13 +86,13 @@ public class LoginAction {
 
         switch (str) {
             case "a randomised password":
-                output += randomise(Chars,20);
+                output += randomise(Chars,30);
                 break;
             case "a randomised address":
-                output += randomise(emailChars,20) + "@gmail.com";
+                output += randomise(emailChars,30) + "@gmail.com";
                 break;
             case "a randomised username of uppercases, lowercases, and ints":
-                output += randomise(usernameChars,20);
+                output += randomise(usernameChars,30);
                 break;
             case "an overlong username":
                 output += randomise(usernameChars,101);
@@ -116,40 +114,57 @@ public class LoginAction {
     public static boolean existingUsernameErrorOccurs(WebDriverWait wait) throws ExistingUsernameException {
 
         String selector = "input[class^='invalid']";
-        WebElement field = wait.until(ExpectedConditions.
-                visibilityOfElementLocated(By.cssSelector(selector)));
+        WebElement field;
+        try {
+            field = wait.until(ExpectedConditions.
+                    visibilityOfElementLocated(By.cssSelector(selector)));
+        }
+        catch (Exception e) { throw new ExistingUsernameException("Existing username error: " +
+                "the selector " + selector + " may be erroneous, " +
+                "\nor the element was not found in expected time."); }
 
-        if(!field.isDisplayed()) { throw new ExistingUsernameException(selector); }
         return field.isDisplayed();
     }
 
     public static boolean emailErrorOccurs(WebDriverWait wait) throws EmailException {
 
         String selector = "label.invalid";
-        WebElement field = wait.until(ExpectedConditions.
-                visibilityOfElementLocated(By.cssSelector(selector)));
-
-        if(!field.isDisplayed()) { throw new EmailException(selector); }
+        WebElement field;
+        try {
+            field = wait.until(ExpectedConditions.
+                    visibilityOfElementLocated(By.cssSelector(selector)));
+        }
+        catch (Exception e) {
+            throw new EmailException("Email error: " +
+                    "the selector " + selector + " may be erroneous, " +
+                    "\nor the element was not found in expected time.");
+        }
         return field.isDisplayed();
     }
 
     public static boolean overlongUsernameErrorOccurs(WebDriverWait wait) throws OverlongUsernameException {
 
         String selector = "label.invalid";
-        WebElement field = wait.until(ExpectedConditions.
-                visibilityOfElementLocated(By.cssSelector(selector)));
-
-        if(!field.isDisplayed()) { System.out.println("error!!!"); throw new OverlongUsernameException(selector); }
+        WebElement field;
+        try {
+            field = wait.until(ExpectedConditions.
+                    visibilityOfElementLocated(By.cssSelector(selector)));
+        }
+        catch (Exception e) {
+            throw new OverlongUsernameException("Overlong username error: " +
+                    "the selector " + selector + " may be erroneous, " +
+                    "\nor the element was not found in expected time.");
+        }
         return field.isDisplayed();
     }
 
-    public static void registrationSucceeds(WebDriverWait wait) throws Exception {
+    public static boolean registrationSucceeds(WebDriverWait wait) {
 
+        String selector = "//*[contains(text(),'Check your email')]";
         WebElement field = wait.until(ExpectedConditions.
-                visibilityOfElementLocated(By.xpath("//*[contains(text(),'Check your email')]")));
+                    visibilityOfElementLocated(By.xpath(selector)));
 
-        if(!field.isDisplayed()) { throw new Exception("timeout!"); }
-        assertTrue(field.isDisplayed());
+        return field.isDisplayed();
     }
 
     public static void quit(WebDriver driver) { driver.quit(); }
