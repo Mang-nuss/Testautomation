@@ -1,6 +1,5 @@
 package stepdefinitions;
 
-import Login.*;
 import io.cucumber.java.en.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -16,9 +15,6 @@ public class MyStepdefs {
     public static WebDriver driver;
     public static WebDriverWait wait;
     public static WebElement field;
-    public static String emailInputData;
-    public static String passwordInputData;
-    public static String usernameInputData;
 
     /*
     * Learned: all steps must be compilable before running a single scenario s, even though they are not
@@ -26,7 +22,7 @@ public class MyStepdefs {
     * */
     @Given("I am up to register at website, using {string}")
     public void iAmUpToRegisterAtWebsiteUsing(String browser) {
-        driver = Login.initiateBrowser(browser);
+        driver = LoginAction.initiateBrowser(browser);
         driver.get("https://login.mailchimp.com/signup/");
         driver.manage().window().maximize();
 

@@ -1,14 +1,15 @@
 package stepdefinitions;
 
-import Login.Login;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import selenium.LoginAction;
 
 public class Hooks {
 
     //public static WebDriver driver;
+    //public static WebDriverWait wait;
 
     @Before//("The scenario begins")
     public void setUp() {
