@@ -74,7 +74,7 @@ public class MyStepdefs {
 
     @When("I click on sign-in")
     public void iClickOnSignIn() {
-        LoginAction.clickByActions(driver, By.cssSelector("button[id=create-account]"));
+        LoginAction.clickByWait(driver, By.cssSelector("button[id=create-account]"), 15);
         System.out.println("Clicked on sign-in ->");
     }
 

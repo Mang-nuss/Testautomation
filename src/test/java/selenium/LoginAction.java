@@ -73,13 +73,6 @@ public class LoginAction {
         driver.findElement(by).click(); //can also be used for sending keys.
     }
 
-    public static void clickByActions(WebDriver driver, By by) {
-
-        WebElement element = driver.findElement(by);
-        Actions actions = new Actions(driver);
-        actions.moveToElement(element).click().perform();
-    }
-
     public static String generateStringFrom(String str) {
 
         output = "";
